@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './assets/css/tailwind/styles.css';
 import { client } from './apollo';
+import './assets/css/index.scss';
 
 ReactDOM.render(
   <React.StrictMode>

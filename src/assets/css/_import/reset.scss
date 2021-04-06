@@ -1,0 +1,96 @@
+@charset 'utf-8';
+@import "./variable.scss";
+
+/* reset */
+html,
+body {
+  position: relative;
+  font-size: 16px;
+  color: $text-primary !important;
+}
+html,
+body,
+#root {
+  height: 100%;
+}
+button,
+input,
+select,
+textarea,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+  line-height: 1rem;
+  color: $text-dark;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+}
+h2 {
+  margin-bottom: 2.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: #9e9ea7 !important;
+}
+input,
+select {
+  padding: 10px 16px;
+  width: 100%;
+  color: $text-dark;
+  background-color: #f3f3f4;
+  border-radius: 8px;
+}
+select {
+  border: none;
+}
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+img {
+  width: 100%;
+}
+video:focus,
+audio:focus {
+  outline: none;
+}
+
+/* Anchor */
+a {
+  color: $text-primary;
+  text-decoration: none;
+
+  &:hover,
+  &:active,
+  &:focus {
+    text-decoration: underline;
+    color: $text-primary;
+  }
+}
+
+strong {
+  color: $text-dark;
+  font-weight: 700;
+}

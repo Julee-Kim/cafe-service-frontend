@@ -1,0 +1,30 @@
+@charset 'utf-8';
+input.error {
+  color: #ff5555;
+  background: #ffeeee;
+}
+.text-gray {
+  color: $text-gray;
+}
+
+.text-purple {
+  color: $purple;
+}
+
+.text-black {
+  color: #000;
+}
+
+.input_wrap {
+  margin-bottom: 1.2rem;
+}
+
+.auth_wrap {
+  max-width: 420px;
+}
+
+@media (min-width: 768px) {
+  .btn {
+    max-width: 200px;
+  }
+}
