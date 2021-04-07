@@ -48,7 +48,7 @@ export const Signup = () => {
           <button className="btn">회원가입</button>
         </form>
         <div className="text-center p-4 text-sm">
-          <span className="text-black">계정이 있으세요?</span>
+          <span className="text-gray">계정이 있으세요?</span>
           <Link to="/login" className="text-purple p-1">로그인</Link>
         </div>
       </div>

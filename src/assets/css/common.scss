@@ -5,10 +5,11 @@ body {
   font-size: 14px;
 }
 
-.error {
-  color: #ff5555;
-  background: #ffeeee;
+.container {
+  margin: 0 auto;
+  padding: 4rem 1rem;
 }
+
 .text-gray {
   color: $text-gray;
 }
@@ -30,6 +31,12 @@ body {
 
 .input_wrap {
   margin-bottom: 1.2rem;
+}
+
+@media (max-width: 767px) {
+  .container {
+    max-width: 100%;
+  }
 }
 
 @media (min-width: 768px) {

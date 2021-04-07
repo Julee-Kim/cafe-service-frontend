@@ -37,9 +37,14 @@ h6 {
   font-weight: 600;
 }
 h2 {
-  margin-bottom: 2.5rem;
-  font-size: 1.5rem;
+  margin-bottom: 3rem;
+  font-size: 1.7rem;
   font-weight: 700;
+  line-height: 1.5rem;
+}
+h3 {
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
 }
 input::placeholder,
 textarea::placeholder,
@@ -90,5 +95,5 @@ a {
 
 strong {
   color: $text-dark;
-  font-weight: 700;
+  font-weight: 600;
 }
