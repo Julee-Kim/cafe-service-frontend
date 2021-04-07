@@ -5,7 +5,6 @@
 html,
 body {
   position: relative;
-  font-size: 16px;
   color: $text-primary !important;
 }
 html,
@@ -85,8 +84,7 @@ a {
   &:hover,
   &:active,
   &:focus {
-    text-decoration: underline;
-    color: $text-primary;
+    text-decoration: none;
   }
 }
 

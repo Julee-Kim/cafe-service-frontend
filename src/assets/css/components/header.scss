@@ -1,0 +1,50 @@
+@charset 'utf-8';
+
+.header {
+  height: 60px;
+  border-bottom: 1px solid $border-gray;
+
+  .logo_wrap {
+    margin-right: 1rem;
+
+    .logo {
+      font-size: 1.2rem;
+      color: $text-dark;
+
+      &:hover {
+        opacity: 0.6;
+      }
+    }
+  }
+
+  ul li a {
+    color: $text-gray;
+
+    &:hover {
+      color: $pink;
+    }
+  }
+
+  .menus {
+    padding: 0.75rem;
+  }
+
+  .signup_wrap {
+    display: none;
+    margin-left: 1.5rem;
+
+    .btn {
+      margin-top: 0;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .header {
+    height: 80px;
+
+    .signup_wrap {
+      display: block;
+    }
+  }
+}
