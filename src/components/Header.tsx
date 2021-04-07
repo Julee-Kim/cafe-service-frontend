@@ -6,7 +6,7 @@ export const Header = () => {
     <div className="header flex justify-center items-center px-6">
       <h1 className="logo_wrap">
         <Link to="/menus" className="logo">
-          MYCAFE
+          Mycafe
         </Link>
       </h1>
       <ul className="menus">
