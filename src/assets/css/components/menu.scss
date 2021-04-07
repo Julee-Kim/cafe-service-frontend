@@ -1,5 +1,6 @@
 @charset 'utf-8';
 
+// list
 .category_wrap {
   margin-bottom: 2rem;
 
@@ -54,5 +55,90 @@
     padding-top: 10px;
     font-size: 0.875rem;
     text-align: center;
+  }
+}
+
+// detail
+.menu_img {
+  overflow: hidden;
+
+  img {
+    border-radius: 12px;
+  }
+}
+.menu_info {
+  .menu_title_wrap {
+    padding: 1.5rem 0 2rem;
+
+    h2 {
+      display: inline-block;
+      margin: 0;
+      padding-right: 5px;
+      font-weight: 600;
+    }
+    small {
+      font-size: 0.9rem;
+      color: $purple;
+    }
+    p {
+      padding-top: 5px;
+      font-size: 0.875rem;
+      color: $text-dark-gray;
+    }
+  }
+
+  .nutrition_title_wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.7rem 0.9rem;
+    background-color: $bg-gray;
+
+    h4 {
+      font-size: 1rem;
+      line-height: 1.1rem;
+    }
+
+    .size {
+      margin-left: auto;
+      font-weight: 500;
+    }
+  }
+
+  .nutrition_table_wrap {
+    padding: 0.8rem 1rem 0;
+    border-bottom: 1px solid $border-gray;
+
+    ul li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 0.3rem;
+      font-size: 0.9rem;
+
+      label {
+        font-weight: 400;
+        color: $text-gray;
+      }
+    }
+  }
+
+  .desc {
+    padding-top: 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .menu_info {
+    .menu_title_wrap {
+      padding-top: 1.5rem;
+    }
+
+    .nutrition_title_wrap {
+      padding: 0.7rem 1.4rem;
+    }
+    .nutrition_table_wrap {
+      padding: 0.8rem 1.4rem 0;
+    }
   }
 }

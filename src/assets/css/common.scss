@@ -7,7 +7,7 @@ body {
 
 .container {
   margin: 0 auto;
-  padding: 4rem 1rem;
+  padding: 2rem 1rem;
 }
 
 .text-gray {
@@ -43,5 +43,8 @@ body {
   html,
   body {
     font-size: 16px;
+  }
+  .container {
+    padding: 4rem 1rem;
   }
 }
