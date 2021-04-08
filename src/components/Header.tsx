@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 export const Header = () => {
   return (
-    <div className="header flex justify-center items-center px-6">
+    <div className="header flex justify-center items-center">
       <h1 className="logo_wrap">
         <Link to="/menus" className="logo">
           Mycafe
@@ -12,6 +12,9 @@ export const Header = () => {
       <ul className="menus">
         <li>
           <Link to="/menus">Menu</Link>
+        </li>
+        <li>
+          <Link to="/stores">Store</Link>
         </li>
       </ul>
       <ul className="flex items-center ml-auto">

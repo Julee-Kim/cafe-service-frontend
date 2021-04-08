@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
 
 .header {
+  padding: 0 1.5rem;
   height: 60px;
   border-bottom: 1px solid $border-gray;
 
@@ -10,7 +11,7 @@
 
     .logo {
       font-size: 1.6rem;
-      color: $text-dark;
+      color: $text-primary;
       font-family: "Dancing Script", cursive;
 
       &:hover {
@@ -28,7 +29,18 @@
   }
 
   .menus {
+    display: flex;
     padding: 0.75rem;
+
+    li {
+      &:first-child a {
+        padding-left: 0;
+      }
+
+      a {
+        padding: 0 0.5rem;
+      }
+    }
   }
 
   .signup_wrap {
@@ -43,7 +55,12 @@
 
 @media (min-width: 768px) {
   .header {
+    padding: 0 5rem;
     height: 80px;
+
+    .menus li {
+      margin: 0 0.5rem;
+    }
 
     .signup_wrap {
       display: block;

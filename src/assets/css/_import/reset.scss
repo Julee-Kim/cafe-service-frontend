@@ -26,7 +26,7 @@ h6 {
   margin: 0;
   padding: 0;
   line-height: 1rem;
-  color: $text-dark;
+  color: $text-primary;
 }
 h1,
 h2,
@@ -55,7 +55,7 @@ input,
 select {
   padding: 10px 16px;
   width: 100%;
-  color: $text-dark;
+  color: $text-primary;
   background-color: #f3f3f4;
   border-radius: 8px;
 }
@@ -80,8 +80,10 @@ video:focus,
 audio:focus {
   outline: none;
 }
+button:focus {
+  outline: 0;
+}
 
-/* Anchor */
 a {
   color: $text-primary;
   text-decoration: none;
@@ -94,6 +96,6 @@ a {
 }
 
 strong {
-  color: $text-dark;
+  color: $text-primary;
   font-weight: 600;
 }

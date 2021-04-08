@@ -4,6 +4,7 @@ import { Login } from '../pages/auth/Login';
 import { Signup } from '../pages/auth/Signup';
 import { MenuDetail } from '../pages/menu/MenuDetail';
 import { MenuList } from '../pages/menu/MenuList';
+import { StoreMap } from '../pages/store/StoreMap';
 
 export const LoggedOutRouter = () => {
   return (
@@ -13,6 +14,7 @@ export const LoggedOutRouter = () => {
         <Route path="/signup" component={Signup}></Route>
         <Route path="/menus" exact component={MenuList}></Route>
         <Route path="/menus/:id" component={MenuDetail}></Route>
+        <Route path="/stores" component={StoreMap}></Route>
       </Switch>
     </Router>
   );
