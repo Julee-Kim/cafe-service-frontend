@@ -1,10 +1,21 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Header } from '../components/Header';
+import { Profile } from '../pages/profile/Profile';
+import { CommonRoutes } from './commonRouter';
 
 export const LoggedInRouter = () => {
   return (
-    <div>
-      <span>LoggedInRouter</span>
-      <button>click to logout</button>
-    </div>
+    <Router>
+      <p>LoggedInRouter</p>
+      <Header/>
+      <Switch>
+        {CommonRoutes.map(route => (
+          <Route key={route.path} path={route.path} exact>
+            {route.component}
+          </Route>
+        ))}
+        <Route path="/profile" component={Profile}></Route>
+      </Switch>
+    </Router>
   );
 }
