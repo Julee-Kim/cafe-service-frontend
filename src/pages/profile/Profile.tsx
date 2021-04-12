@@ -57,7 +57,6 @@ export const Profile = () => {
   };
 
   const onSubmit = () => {
-    console.log(formState.isValid)
     const { name, birth, gender, email } = getValues();
     const data = {
       name, birth, gender, email, zonecode, address, addressDetail
@@ -102,7 +101,7 @@ export const Profile = () => {
             />
             <div className="password">
               <label htmlFor="currentPassword">비밀번호</label>
-              <button type="button" className="btn able btn_search_addr btn_mint" onClick={() => setShoModal(true)}>비밀번호 변경</button>
+              <button type="button" className="btn able btn_change_password btn_mint" onClick={() => setShoModal(true)}>비밀번호 변경</button>
             </div>
           </div>
           <div className="address_wrap input_wrap">

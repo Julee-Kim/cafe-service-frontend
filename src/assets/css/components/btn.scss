@@ -27,6 +27,14 @@
     }
   }
 
+  &.btn_auto { width: auto; }
+
+  &.btn_sm {
+    padding: .5rem 1rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
   &.btn_mint {
     background-color: $mint;
   
