@@ -6,13 +6,14 @@ import reportWebVitals from './reportWebVitals';
 import './assets/css/tailwind/styles.css';
 import { client } from './apollo';
 import './assets/css/index.scss';
+import { ToastProvider } from 'react-toast-notifications';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ApolloProvider client={client}>
+  <ApolloProvider client={client}>
+    <ToastProvider autoDismiss={true}>
       <App />
-    </ApolloProvider>
-  </React.StrictMode>,
+    </ToastProvider>  
+  </ApolloProvider>,
   document.getElementById('root')
 );
 

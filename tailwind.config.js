@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors');
 
 module.exports = {
   purge: [],
@@ -8,6 +9,9 @@ module.exports = {
     screens: {
       'xs': '320px',
       ...defaultTheme.screens,
+    },
+    colors: {
+      red: colors.rose,
     }
   },
   variants: {
