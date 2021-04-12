@@ -6,16 +6,17 @@ import { CommonRoutes } from './commonRouter';
 export const LoggedInRouter = () => {
   return (
     <Router>
-      <p>LoggedInRouter</p>
       <Header/>
-      <Switch>
-        {CommonRoutes.map(route => (
-          <Route key={route.path} path={route.path} exact>
-            {route.component}
-          </Route>
-        ))}
-        <Route path="/profile" component={Profile}></Route>
-      </Switch>
+      <div className="container">
+        <Switch>
+          {CommonRoutes.map(route => (
+            <Route key={route.path} path={route.path} exact>
+              {route.component}
+            </Route>
+          ))}
+          <Route path="/profile" component={Profile}></Route>
+        </Switch>
+      </div>  
     </Router>
   );
 }

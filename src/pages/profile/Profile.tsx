@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Header } from '../../components/Header';
 import DaumPostcode from 'react-daum-postcode';
 import { useForm } from 'react-hook-form';
 import { InputWrap } from '../../components/InputWrap';
@@ -66,7 +65,6 @@ export const Profile = () => {
 
   return (
     <div>
-      <Header />
       <div className="container">
         <h2>내 정보</h2>
 

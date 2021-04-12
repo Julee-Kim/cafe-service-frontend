@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Header } from '../../components/Header';
 import { ExpandLessRounded, ExpandMoreRounded, ChevronLeftRounded, RoomRounded } from '@material-ui/icons';
 
 const sidos = [
@@ -127,7 +126,6 @@ export const StoreMap = () => {
 
   return (
     <div className="h-full">
-      <Header/>
       <div className="store_wrap">
         <div className="store_list">
           <div className="title_wrap">

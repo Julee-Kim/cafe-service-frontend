@@ -64,7 +64,7 @@ export const Signup = () => {
   }
 
   return (
-    <div className="h-full flex justify-center items-center">
+    <div className="flex justify-center items-center">
       <div className="w-full max-w-screen-sm auth_wrap">
         <h2>Sign in</h2>
           <form onSubmit={handleSubmit(signup)}>
@@ -121,6 +121,6 @@ export const Signup = () => {
           <Link to="/login" className="text-purple p-1">로그인</Link>
         </div>
       </div>
-    </div>
+    </div>  
   )
 }

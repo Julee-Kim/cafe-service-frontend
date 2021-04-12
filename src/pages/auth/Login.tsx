@@ -60,9 +60,9 @@ export const Login = () => {
   }
 
   return (
-    <div className="h-full flex justify-center items-center">
-      <div className="w-full max-w-screen-sm auth_wrap">
-        <h2>Sign in</h2>
+    <div className="flex justify-center items-center">
+      <div className="w-full max-w-screen-sm auth_wrap login_wrap">
+        <h2>Login in</h2>
         <form onSubmit={handleSubmit(onSubmitLogin)}>
           <InputWrap
             type={'email'}
@@ -91,6 +91,6 @@ export const Login = () => {
           <Link to="/signup" className="text-purple p-1">회원 가입</Link>
         </div>
       </div>
-    </div>
+    </div>  
   )
 }

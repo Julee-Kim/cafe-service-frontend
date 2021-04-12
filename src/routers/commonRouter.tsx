@@ -1,4 +1,3 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { MenuDetail } from '../pages/menu/MenuDetail';
 import { MenuList } from '../pages/menu/MenuList';
 import { StoreMap } from '../pages/store/StoreMap';
