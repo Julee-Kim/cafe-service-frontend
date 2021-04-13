@@ -1,98 +1,70 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { useQuery } from '@apollo/client';
+import gql from 'graphql-tag'
+import React, { useState } from 'react'
+import { categoriesAndMenus } from '../../__generated__/categoriesAndMenus';
+import { Menu } from './components/Menu';
+
+const CATEGORIES_AND_MENUS = gql`
+  query categoriesAndMenus {
+    getCategories {
+      success
+      error
+      categories {
+        id
+        name
+      }
+    }
+    getMenus {
+      success
+      error
+      results {
+        id
+        productName
+        img
+        category {
+          id
+        }
+      }
+    }
+  }
+`;
 
 export const MenuList = () => {
+  const { data, loading } = useQuery<categoriesAndMenus>(CATEGORIES_AND_MENUS);
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const selectCategory = (category: string) => {
+    setSelectedCategory(category);
+  }
+
   return (
     <>
       <h2>메뉴</h2>
-      <div className="category_wrap">
-        <ul>
-          <li className="active">All</li>
-          <li>Coffee</li>
-          <li>Tea</li>
-          <li>Cake</li>
-        </ul>
-      </div>
-      
-      <div className="menus">
-        <div className="menus_area">
-          <h3 className="menus_title">Coffee</h3>
-          <ul className="grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            <li>
-              <Link to="">
-                <div className="img_wrap">
-                  <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2019/09/[9200000002487]_20190919181354811.jpg" alt="" />
-                </div>
-                <p className="menu_name">나이트로 바닐라 크림</p>
-              </Link>
-            </li>
-            <li>
-              <Link to="">
-                <div className="img_wrap">
-                  <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2019/09/[9200000002487]_20190919181354811.jpg" alt="" />
-                </div>
-                <p className="menu_name">나이트로 바닐라 크림</p>
-              </Link>
-            </li>
-            <li>
-              <Link to="">
-                <div className="img_wrap">
-                  <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2019/09/[9200000002487]_20190919181354811.jpg" alt="" />
-                </div>
-                <p className="menu_name">나이트로 바닐라 크림</p>
-              </Link>
-            </li>
-            <li>
-              <Link to="">
-                <div className="img_wrap">
-                  <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2019/09/[9200000002487]_20190919181354811.jpg" alt="" />
-                </div>
-                <p className="menu_name">나이트로 바닐라 크림</p>
-              </Link>
-            </li>
-            <li>
-              <Link to="">
-                <div className="img_wrap">
-                  <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2019/09/[9200000002487]_20190919181354811.jpg" alt="" />
-                </div>
-                <p className="menu_name">나이트로 바닐라 크림</p>
-              </Link>
-            </li>
-            <li>
-              <Link to="">
-                <div className="img_wrap">
-                  <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2019/09/[9200000002487]_20190919181354811.jpg" alt="" />
-                </div>
-                <p className="menu_name">나이트로 바닐라 크림</p>
-              </Link>
-            </li>
-            <li>
-              <Link to="">
-                <div className="img_wrap">
-                  <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2019/09/[9200000002487]_20190919181354811.jpg" alt="" />
-                </div>
-                <p className="menu_name">나이트로 바닐라 크림</p>
-              </Link>
-            </li>
-            <li>
-              <Link to="">
-                <div className="img_wrap">
-                  <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2019/09/[9200000002487]_20190919181354811.jpg" alt="" />
-                </div>
-                <p className="menu_name">나이트로 바닐라 크림</p>
-              </Link>
-            </li>
-            <li>
-              <Link to="">
-                <div className="img_wrap">
-                  <img src="https://image.istarbucks.co.kr/upload/store/skuimg/2019/09/[9200000002487]_20190919181354811.jpg" alt="" />
-                </div>
-                <p className="menu_name">나이트로 바닐라 크림</p>
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </div>  
+      {!loading && (
+        <>
+          <div className="category_wrap">
+            <ul>
+              <li
+                className={`${selectedCategory === 'All' && 'active'}`}
+                onClick={() => selectCategory('All')}
+              >All</li>
+              {data?.getCategories.categories?.map(category => (
+                <li
+                  key={category.id}
+                  className={`${selectedCategory === category.name && 'active'}`}
+                  onClick={() => selectCategory(category.name)}
+                >{category.name}</li>
+              ))}
+            </ul>
+          </div>
+
+          <Menu
+            selectedCategory={selectedCategory}
+            categories={data?.getCategories.categories}
+            menus={data?.getMenus.results}
+          />
+        </>
+      )}
     </>
   )
 }
