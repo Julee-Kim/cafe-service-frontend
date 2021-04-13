@@ -24,6 +24,11 @@ export interface GetMenuInput {
   menuId: number;
 }
 
+export interface GetStoresInput {
+  sidoId?: number | null;
+  gugunId?: number | null;
+}
+
 export interface LoginInput {
   email: string;
   password: string;
