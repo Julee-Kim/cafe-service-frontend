@@ -28,6 +28,15 @@
     }
   }
 
+  .ico_wrap {
+    padding-left: .7rem;
+    color: $text-primary;
+
+    .ico {
+      font-size: 1.8rem;
+    }
+  }
+
   .menus {
     display: flex;
     padding: 0.75rem;
