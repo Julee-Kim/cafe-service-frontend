@@ -20,6 +20,10 @@ export interface CreateAccountInput {
   password: string;
 }
 
+export interface GetMenuInput {
+  menuId: number;
+}
+
 export interface LoginInput {
   email: string;
   password: string;

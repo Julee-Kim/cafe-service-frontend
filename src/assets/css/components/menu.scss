@@ -106,19 +106,27 @@
   }
 
   .nutrition_table_wrap {
-    padding: 0.8rem 1rem 0;
+    padding-bottom: .6rem;
     border-bottom: 1px solid $border-gray;
+  
+    .nutrition_table {
+      margin-top: .5rem;
+      width: 100%;
 
-    ul li {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 0.3rem;
-      font-size: 0.9rem;
+      tr {
+        > td:nth-child(2) { padding: 0.2rem 1rem 0.2rem 0; }
 
-      label {
-        font-weight: 400;
-        color: $text-gray;
+        th, td {
+          padding: .2rem .4rem;
+          font-size: 0.9rem;
+        }
+        th {
+          margin-bottom: 0;
+          font-weight: 400;
+          color: $text-gray;
+          text-align: left;
+        }
+        td { text-align: right; }
       }
     }
   }
@@ -137,8 +145,10 @@
     .nutrition_title_wrap {
       padding: 0.7rem 1.4rem;
     }
-    .nutrition_table_wrap {
-      padding: 0.8rem 1.4rem 0;
+    .nutrition_table_wrap .nutrition_table tr {
+      th, td {
+        padding: .2rem 1.4rem;
+      }
     }
   }
 }
