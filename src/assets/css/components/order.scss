@@ -1,0 +1,126 @@
+@charset 'utf-8';
+
+$gray: #d0d0d0;
+
+.order {
+  table {
+    width: 100%;
+
+    thead tr th {
+      padding: 1.3rem .5rem;
+      font-weight: 400;
+      color: #555;
+      border-top: 2px solid $text-primary;
+      border-bottom: 1px solid $gray;
+    }
+    tr td {
+      padding: 1.2rem .5rem;
+      text-align: center;
+      border-bottom: 1px solid $gray;
+    }
+    tfoot td {
+      font-weight: 600;
+      background-color: #f9f9f9;
+    }
+  }
+
+  .order_step {
+    padding-bottom: 5rem;
+    text-align: center;
+  
+    .step {
+      position: relative;
+      padding: 0 1.5rem;
+  
+      &::before {
+        content: '';
+        position: absolute;
+        top: 11px;
+        left: 0;
+        width: 7px;
+        height: 7px;
+        color: #bbb;
+        transform: translateY(-50%) rotateZ(45deg);
+        border-width: 1px 1px 0 0;
+      }
+  
+      &:first-child::before { display: none; }
+  
+      &.active strong { color: $text-primary; }
+  
+      strong {
+        font-weight: 700;
+        color: #bbb;
+        vertical-align: middle;
+      }
+    }
+  }
+  
+  .cart_list_table_wrap {
+    .product_img {
+      display: inline-block;
+      width: 100px;
+      border-radius: 3px;
+    }
+
+    .product_name {
+      padding-left: 15px;
+    }
+
+    .btn_change_qty {
+      position: relative;
+      float: left;
+      width: 33px;
+      height: 34px;
+      border: 1px solid rgb(208, 208, 208);
+
+      &.btn_decrease::before,
+      &.btn_increase::before,
+      &.btn_increase::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 13px;
+        height: 1px;
+        background-color: $gray;
+      }
+      &.btn_increase::after {
+        width: 1px;
+        height: 13px;
+      }
+    }
+
+    .input_qty {
+      float: left;
+      width: 44px;
+      height: 34px;
+      background-color: #fff;
+      border: 1px solid rgb(208, 208, 208);
+      border-width: 1px 0;
+      border-radius: 0;
+    }
+
+    .btn_delete_products {
+      padding: 1rem 0 2rem;
+
+      .btn_delete_products {
+        padding: .8rem 1.7rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #111;
+        border: 1px solid #bbb;
+      }
+    }
+  }
+
+  .btn_order {
+    padding: 1.2rem;
+    height: 55px;
+    font-size: 18px;
+    font-weight: 600;
+    max-width: 250px;
+    background-color: $purple;
+  }
+}

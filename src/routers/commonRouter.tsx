@@ -1,5 +1,6 @@
 import { MenuDetail } from '../pages/menu/MenuDetail';
 import { MenuList } from '../pages/menu/MenuList';
+import { Cart } from '../pages/order/Cart';
 import { StoreMap } from '../pages/store/StoreMap';
 
 export const CommonRoutes = [
@@ -14,5 +15,9 @@ export const CommonRoutes = [
   {
     path: '/stores',
     component: <StoreMap />
+  },
+  {
+    path: '/cart',
+    component: <Cart />
   },
 ];
