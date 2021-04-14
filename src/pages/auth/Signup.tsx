@@ -64,61 +64,63 @@ export const Signup = () => {
   }
 
   return (
-    <div className="flex justify-center items-center">
-      <div className="w-full max-w-screen-sm auth_wrap">
-        <h2>Sign in</h2>
-          <form onSubmit={handleSubmit(signup)}>
-            <InputWrap
-              name={'name'}
-              labelName={'이름'}
-              register={register}
-              errors={errors}
-            />
-            <InputWrap
-              name={'birth'}
-              labelName={'생년월일'}
-              register={register}
-              errors={errors}
-            />
-            <SelectWrap
-              name={'gender'}
-              labelName={'성별'}
-              register={register}
-              errors={errors}
-              options={Genders}
-            />
-            <InputWrap
-              type={'email'}
-              name={'email'}
-              labelName={'이메일'}
-              register={register}
-              pattern={/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/}
-              errors={errors}
-              errorMsg={'잘못된 이메일 형식입니다.'}
-            />
-            <InputWrap
-              type={'password'}
-              name={'password'}
-              labelName={'비밀번호'}
-              register={register}
-              errors={errors}
-            />
-            <InputWrap
-              type={'password'}
-              name={'passwordCheck'}
-              labelName={'비밀번호 확인'}
-              register={register}
-              errors={errors}
-            />
-            <Button
-              canClick={formState.isValid}
-              loading={loading}
-              actionText={"회원가입"}
-            />
-          </form>
-        <div className="text-center p-4 text-sm">
-          <span className="text-gray">계정이 있으세요?</span>
-          <Link to="/login" className="text-purple p-1">로그인</Link>
+    <div className="container">
+      <div className="flex justify-center items-center">
+        <div className="w-full max-w-screen-sm auth_wrap">
+          <h2>Sign in</h2>
+            <form onSubmit={handleSubmit(signup)}>
+              <InputWrap
+                name={'name'}
+                labelName={'이름'}
+                register={register}
+                errors={errors}
+              />
+              <InputWrap
+                name={'birth'}
+                labelName={'생년월일'}
+                register={register}
+                errors={errors}
+              />
+              <SelectWrap
+                name={'gender'}
+                labelName={'성별'}
+                register={register}
+                errors={errors}
+                options={Genders}
+              />
+              <InputWrap
+                type={'email'}
+                name={'email'}
+                labelName={'이메일'}
+                register={register}
+                pattern={/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/}
+                errors={errors}
+                errorMsg={'잘못된 이메일 형식입니다.'}
+              />
+              <InputWrap
+                type={'password'}
+                name={'password'}
+                labelName={'비밀번호'}
+                register={register}
+                errors={errors}
+              />
+              <InputWrap
+                type={'password'}
+                name={'passwordCheck'}
+                labelName={'비밀번호 확인'}
+                register={register}
+                errors={errors}
+              />
+              <Button
+                canClick={formState.isValid}
+                loading={loading}
+                actionText={"회원가입"}
+              />
+            </form>
+          <div className="text-center p-4 text-sm">
+            <span className="text-gray">계정이 있으세요?</span>
+            <Link to="/login" className="text-purple p-1">로그인</Link>
+          </div>
         </div>
       </div>
     </div>  

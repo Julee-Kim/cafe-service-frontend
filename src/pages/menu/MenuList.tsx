@@ -38,7 +38,7 @@ export const MenuList = () => {
   }
 
   return (
-    <>
+    <div className="container">
       <h2>메뉴</h2>
       {!loading && (
         <>
@@ -65,6 +65,6 @@ export const MenuList = () => {
           />
         </>
       )}
-    </>
+    </div>
   )
 }

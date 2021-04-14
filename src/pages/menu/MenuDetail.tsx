@@ -51,7 +51,7 @@ export const MenuDetail = () => {
   console.log(data)
 
   return (
-    <>
+    <div className="container">
       <div className="grid grid-cols-8 xs:gap-0 md:gap-8 lg:gap-12">
         {!loading && (
           <>
@@ -108,6 +108,6 @@ export const MenuDetail = () => {
           </>      
         )}
       </div>
-    </>
+    </div>
   )
 }

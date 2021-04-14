@@ -60,37 +60,39 @@ export const Login = () => {
   }
 
   return (
-    <div className="flex justify-center items-center">
-      <div className="w-full max-w-screen-sm auth_wrap login_wrap">
-        <h2>Login in</h2>
-        <form onSubmit={handleSubmit(onSubmitLogin)}>
-          <InputWrap
-            type={'email'}
-            name={'email'}
-            labelName={'이메일'}
-            register={register}
-            pattern={/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/}
-            errors={errors}
-            errorMsg={'잘못된 이메일 형식입니다.'}
-          />
-          <InputWrap
-            type={'password'}
-            name={'password'}
-            labelName={'비밀번호'}
-            register={register}
-            errors={errors}
-          />
-          <Button
-            canClick={formState.isValid}
-            loading={loading}
-            actionText={"로그인"}
-          />
-        </form>
-        <div className="text-center p-4 text-sm">
-          <span className="text-black">계정이 없으세요?</span>
-          <Link to="/signup" className="text-purple p-1">회원 가입</Link>
+    <div className="container">
+      <div className="flex justify-center items-center">
+        <div className="w-full max-w-screen-sm auth_wrap login_wrap">
+          <h2>Login in</h2>
+          <form onSubmit={handleSubmit(onSubmitLogin)}>
+            <InputWrap
+              type={'email'}
+              name={'email'}
+              labelName={'이메일'}
+              register={register}
+              pattern={/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/}
+              errors={errors}
+              errorMsg={'잘못된 이메일 형식입니다.'}
+            />
+            <InputWrap
+              type={'password'}
+              name={'password'}
+              labelName={'비밀번호'}
+              register={register}
+              errors={errors}
+            />
+            <Button
+              canClick={formState.isValid}
+              loading={loading}
+              actionText={"로그인"}
+            />
+          </form>
+          <div className="text-center p-4 text-sm">
+            <span className="text-black">계정이 없으세요?</span>
+            <Link to="/signup" className="text-purple p-1">회원 가입</Link>
+          </div>
         </div>
-      </div>
-    </div>  
+      </div> 
+    </div> 
   )
 }

@@ -8,17 +8,15 @@ export const LoggedOutRouter = () => {
   return (
     <Router>
       <Header/>
-      <div className="container">
-        <Switch>
-          {CommonRoutes.map(route => (
-            <Route key={route.path} path={route.path} exact>
-              {route.component}
-            </Route>
-          ))}
-          <Route path="/login" component={Login}></Route>
-          <Route path="/signup" component={Signup}></Route>
-        </Switch>
-      </div>
+      <Switch>
+        {CommonRoutes.map(route => (
+          <Route key={route.path} path={route.path} exact>
+            {route.component}
+          </Route>
+        ))}
+        <Route path="/login" component={Login}></Route>
+        <Route path="/signup" component={Signup}></Route>
+      </Switch>
     </Router>
   );
 }

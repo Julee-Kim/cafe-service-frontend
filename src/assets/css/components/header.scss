@@ -2,8 +2,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
 
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
   padding: 0 1.5rem;
   height: 60px;
+  background-color: #Fff;
   border-bottom: 1px solid $border-gray;
 
   .logo_wrap {
@@ -64,6 +70,7 @@
 
 @media (min-width: 768px) {
   .header {
+    position: static;
     padding: 0 5rem;
     height: 80px;
 
