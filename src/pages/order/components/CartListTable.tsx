@@ -29,11 +29,16 @@ interface ICartItem {
 export const CartListTable = () => {
   const { addToast } = useToasts();
   const [cartList, setCartList] = useState<ICartItem[] | []>([]);
+  const [totalPrice, setTotalPrice] = useState(0);
   const [checkItems, setCheckItems] = useState<number[]>([1, 2]); // checked menuItems
 
   useEffect(() => {
     setCartList(cartListData);
-  }, [checkItems])
+    const list = cartListData;
+    let price: number = 0;
+    list.forEach(item => price += item.price );
+    setTotalPrice(price);
+  }, []);
 
   // 개별 체크박스
   const checkHandler = (checked: boolean, itemId: number) => {
@@ -106,7 +111,7 @@ export const CartListTable = () => {
         <tfoot>
           <tr>
             <td colSpan={4} className="text-right">주문 금액 합계</td>
-            <td>6,000</td>
+            <td>{totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
           </tr>
         </tfoot>
         <tbody>
@@ -134,7 +139,7 @@ export const CartListTable = () => {
                   <button type="button" className="btn_change_qty btn_increase">증가</button>
                 </div>
               </td>
-              <td>{item.price}</td>
+              <td>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
             </tr>
           ))}
         </tbody>
