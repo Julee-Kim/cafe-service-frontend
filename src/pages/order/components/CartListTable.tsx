@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { useToasts } from 'react-toast-notifications';
 
-const cartListData = [
-  {
-    id: 1,
-    menu_name: '자몽 셔벗 블렌디드',
-    menu_img: 'https://image.istarbucks.co.kr/upload/store/skuimg/2019/04/[9200000002153]_20190423145048072.jpg',
-    qty: 3,
-    price: 6500,
-  },
-  {
-    id: 2,
-    menu_name: '화이트 타이거 프라푸치노',
-    menu_img: 'https://image.istarbucks.co.kr/upload/store/skuimg/2019/07/[9200000002403]_20190711125729602.jpg',
-    qty: 1,
-    price: 6000,
-  }
-];
+interface ICartListProps {
+  cartList: ICartItem[] | [];
+  checkItems: number[] | [];
+  totalPrice: number;
+  checkAllHandler: Function;
+  checkHandler: Function;
+  changeQty: Function;
+  inputHandler: Function;
+  deleteSelectedMenu: Function;
+}
 
 interface ICartItem {
   id: number;
@@ -26,72 +19,7 @@ interface ICartItem {
   price: number;
 }
 
-export const CartListTable = () => {
-  const { addToast } = useToasts();
-  const [cartList, setCartList] = useState<ICartItem[] | []>([]);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [checkItems, setCheckItems] = useState<number[]>([1, 2]); // checked menuItems
-
-  useEffect(() => {
-    setCartList(cartListData);
-    const list = cartListData;
-    let price: number = 0;
-    list.forEach(item => price += item.price );
-    setTotalPrice(price);
-  }, []);
-
-  // 개별 체크박스
-  const checkHandler = (checked: boolean, itemId: number) => {
-    if(checked) {
-      setCheckItems([...checkItems, itemId]);
-    } else {
-      // 체크해제
-      setCheckItems(checkItems.filter(id => id !== itemId));
-    }
-  }
-
-  // 전체 체크박스
-  const checkAllHandler = (checked: boolean) => {
-    if(checked) {
-      const ids = cartList.map((item: ICartItem)  => item.id);
-      setCheckItems(ids);
-    } else {
-      setCheckItems([]);
-    }
-  }
-
-  // 수량 핸들러
-  const inputHandler = (value: string, itemId: number) => {}
-
-  // 선택 상품 삭제
-  const deleteSelectedMenu = () => {
-    // 선택한 상품이 없는 경우 warning toast
-    if (!checkItems.length) {
-      addToast('선택된 메뉴가 없습니다', { appearance: 'warning' });
-      return false;
-    }
-
-    if(window.confirm('메뉴를 삭제하시겠습니까?')) {
-      console.log('delete!')
-      // 삭제 api처리 후, res => cartList받아서 setCartList()
-    }
-  }
-
-  // 수량 변경(api 요청 이후 실행)
-  const changeQty = (type: string, item: ICartItem) => {
-    if(type === 'decrease' && item.qty <= 1) return;
-
-    const updatedQty = type === 'decrease' ? { qty: item.qty - 1 } : { qty: item.qty + 1 }
-
-    setCartList(
-      cartList.map(
-        (menu: ICartItem) => item.id === menu.id
-          ? { ...menu, ...updatedQty }
-          : menu
-      )
-    );
-  }
-
+export const CartListTable: React.FC<ICartListProps> = ({ cartList, checkItems, totalPrice, checkAllHandler, checkHandler, changeQty, inputHandler, deleteSelectedMenu }) => {
   return (
     <div className="cart_list_table_wrap">
       <table>
@@ -111,9 +39,7 @@ export const CartListTable = () => {
               name="checkAll"
               id="checkAll"
               checked={
-                checkItems.length === cartList.length
-                  ? true
-                : false
+                checkItems.length === cartList.length ? true : false
               }
               onChange={(e) => checkAllHandler(e.target.checked)}
             />
@@ -139,7 +65,7 @@ export const CartListTable = () => {
                   name={`selectMenu${index}`}
                   id={`selectMenu${index}`}
                   value={''}
-                  checked={checkItems.indexOf(item.id) >= 0 ? true : false}
+                  checked={checkItems.some(id => id === item.id) ? true : false}
                   onChange={(e) => checkHandler(e.target.checked, item.id)}
                 />
               </td>
@@ -160,7 +86,7 @@ export const CartListTable = () => {
         </tbody>
       </table>
       <div className="btn_delete_products">
-        <button type="button" className="btn_delete_products" onClick={deleteSelectedMenu}>선택 메뉴 삭제</button>
+        <button type="button" className="btn_delete_products" onClick={() => deleteSelectedMenu()}>선택 메뉴 삭제</button>
       </div>
       <div className="btn_order_wrap text-center">
         <button className="btn active btn_order">주문하기</button>
