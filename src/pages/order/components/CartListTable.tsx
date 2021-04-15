@@ -35,14 +35,14 @@ export const CartListTable: React.FC<ICartListProps> = ({ cartList, checkItems, 
             <th scope="col">번호</th>
             <th scope="col">
               <input
-              type="checkbox"
-              name="checkAll"
-              id="checkAll"
-              checked={
-                checkItems.length === cartList.length ? true : false
-              }
-              onChange={(e) => checkAllHandler(e.target.checked)}
-            />
+                type="checkbox"
+                name="checkAll"
+                id="checkAll"
+                checked={
+                  checkItems.length === cartList.length ? true : false
+                }
+                onChange={(e) => checkAllHandler(e.target.checked)}
+              />
             </th>
             <th scope="col">메뉴 정보</th>
             <th scope="col">수량</th>
@@ -85,7 +85,7 @@ export const CartListTable: React.FC<ICartListProps> = ({ cartList, checkItems, 
           ))}
         </tbody>
       </table>
-      <div className="btn_delete_products">
+      <div className="btn_delete_products_wrap">
         <button type="button" className="btn_delete_products" onClick={() => deleteSelectedMenu()}>선택 메뉴 삭제</button>
       </div>
       <div className="btn_order_wrap text-center">

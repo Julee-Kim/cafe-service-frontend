@@ -129,7 +129,16 @@ export const Cart = () => {
 
       <div className="table_wrap">
         {windowWidth < 768 ? (
-          <CartListUl />
+          <CartListUl
+            cartList={cartListData}
+            checkItems={checkItems}
+            totalPrice={totalPrice}
+            checkAllHandler={checkAllHandler}
+            checkHandler={checkHandler}
+            changeQty={changeQty}
+            inputHandler={inputHandler}
+            deleteSelectedMenu={deleteSelectedMenu}
+          />
         ) : (
           <CartListTable
             cartList={cartListData}

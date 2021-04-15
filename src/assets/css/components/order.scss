@@ -3,6 +3,8 @@
 $gray: #d0d0d0;
 
 .order {
+  position: relative;
+
   table {
     width: 100%;
 
@@ -24,8 +26,10 @@ $gray: #d0d0d0;
     }
   }
 
+  // 결제 순서 스타일
   .order_step {
-    padding-bottom: 5rem;
+    display: none;
+    padding-bottom: 2rem;
     text-align: center;
   
     .step {
@@ -56,6 +60,7 @@ $gray: #d0d0d0;
     }
   }
   
+  // 장바구니 table
   .cart_list_table_wrap {
     .product_img {
       display: inline-block;
@@ -67,58 +72,93 @@ $gray: #d0d0d0;
       padding-left: 15px;
     }
 
-    .btn_change_qty {
-      position: relative;
-      float: left;
-      width: 33px;
-      height: 34px;
-      font-size: 0;
-      text-indent: -9999px;
-      border: 1px solid rgb(208, 208, 208);
-
-      &.btn_decrease::before,
-      &.btn_increase::before,
-      &.btn_increase::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%,-50%);
-        width: 13px;
-        height: 1px;
-        background-color: $gray;
-      }
-      &.btn_increase::after {
-        width: 1px;
-        height: 13px;
-      }
-    }
-
-    .input_qty {
-      float: left;
-      padding: 10px 3px;
-      width: 44px;
-      height: 34px;
-      text-align: center;
-      background-color: #fff;
-      border: 1px solid rgb(208, 208, 208);
-      border-width: 1px 0;
-      border-radius: 0;
-    }
-
-    .btn_delete_products {
+    .btn_delete_products_wrap {
       padding: 1rem 0 2rem;
 
       .btn_delete_products {
         padding: .8rem 1.7rem;
         font-size: 0.875rem;
-        font-weight: 600;
-        color: #111;
-        border: 1px solid #bbb;
       }
     }
   }
 
+  // 장바구니 ul
+  .cart_list_ul_wrap {
+    margin: 0 -1rem;
+
+    .select_wrap > * {
+      display: inline-block;
+      margin-bottom: 0;
+    }
+
+    .check_and_delete_wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .btn_delete_menu { color: #929292; }
+    }
+
+    .cart_list_ul_header {
+      padding: 1rem;
+      background-color: $bg-gray; 
+
+      .check_all_wrap label {
+        font-size: 13px;
+        font-weight: 500;
+      }
+    }
+
+    .cart_list_ul {
+      li {
+        padding: 1rem 0;
+        border-bottom: 1px solid $border-gray;
+
+        .menu_info_wrap {
+          padding: 1rem;
+
+          .menu_info {
+            display: inline-flex;
+            padding-top: 1rem;
+            width: 100%;
+
+            .product_img {
+              width: 140px;
+              border-radius: 5px;;
+            }
+
+            .menu_name {
+              font-weight: 600;
+            }
+            .menu_price {
+              font-size: 21px;
+              font-weight: 600;
+            }
+          }
+        }
+      }
+    }
+
+    .btn_delete_products {
+      padding: .5rem;
+      font-size: 13px;
+      
+    }
+
+    .btn_order_wrap {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+
+      .btn_order {
+        max-width: 100%;
+        border-radius: 0;
+      }
+    }
+  }
+
+  // 장바구니 Table & ul 공통 스타일
   .btn_order {
     padding: 1.2rem;
     height: 55px;
@@ -126,5 +166,59 @@ $gray: #d0d0d0;
     font-weight: 600;
     max-width: 250px;
     background-color: $purple;
+  }
+
+  .btn_delete_products {
+    font-weight: 600;
+    color: #111;
+    background-color: #fff;
+    border: 1px solid #bbb;
+  }
+
+  .btn_change_qty {
+    position: relative;
+    float: left;
+    width: 33px;
+    height: 34px;
+    font-size: 0;
+    text-indent: -9999px;
+    border: 1px solid rgb(208, 208, 208);
+
+    &.btn_decrease::before,
+    &.btn_increase::before,
+    &.btn_increase::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      width: 13px;
+      height: 1px;
+      background-color: $gray;
+    }
+    &.btn_increase::after {
+      width: 1px;
+      height: 13px;
+    }
+  }
+
+  .input_qty {
+    float: left;
+    padding: 10px 3px;
+    width: 44px;
+    height: 34px;
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid rgb(208, 208, 208);
+    border-width: 1px 0;
+    border-radius: 0;
+  }
+  /// ---------------------- ///
+
+  @media (min-width: 768px) {
+    .order_step {
+      display: block;
+      padding-bottom: 5rem;
+    }
   }
 }
