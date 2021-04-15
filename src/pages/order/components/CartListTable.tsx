@@ -17,6 +17,7 @@ interface ICartItem {
   menu_img: string;
   qty: number;
   price: number;
+  totalPrice: number;
 }
 
 export const CartListTable: React.FC<ICartListProps> = ({ cartList, checkItems, totalPrice, checkAllHandler, checkHandler, changeQty, inputHandler, deleteSelectedMenu }) => {
@@ -80,7 +81,7 @@ export const CartListTable: React.FC<ICartListProps> = ({ cartList, checkItems, 
                   <button type="button" className="btn_change_qty btn_increase" onClick={() => changeQty('increase', item)}>증가</button>
                 </div>
               </td>
-              <td>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+              <td>{item.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
             </tr>
           ))}
         </tbody>
