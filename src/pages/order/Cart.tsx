@@ -54,12 +54,16 @@ export const Cart = () => {
       setWindowWidth(window.innerWidth);
     });
 
+    calcTotalPrice();
+  }, []);
+
+  // 주문 금액 합계
+  const calcTotalPrice = () => {
     const list = cartListData;
     let price: number = 0;
     list.forEach((item) => (price += item.price));
     setTotalPrice(price);
-    console.log(cartList)
-  }, [cartList]);
+  }
 
   // 개별 체크박스
   const checkHandler = (checked: boolean, itemId: number) => {
