@@ -34,14 +34,6 @@ interface ICartItem {
 export const Cart = () => {
   const [windowWidth, setWindowWidth] = useState<number>(0);
 
-  // useEffect(() => {
-  //   setCartList(cartListData);
-  //   const list = cartListData;
-  //   let price: number = 0;
-  //   list.forEach(item => price += item.price );
-  //   setTotalPrice(price);
-  // }, []);
-
   const { addToast } = useToasts();
   const [cartList, setCartList] = useState<ICartItem[] | []>(cartListData);
   const [totalPrice, setTotalPrice] = useState(0);
