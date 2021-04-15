@@ -6,7 +6,7 @@ const cartListData = [
     id: 1,
     menu_name: '자몽 셔벗 블렌디드',
     menu_img: 'https://image.istarbucks.co.kr/upload/store/skuimg/2019/04/[9200000002153]_20190423145048072.jpg',
-    qty: 1,
+    qty: 3,
     price: 6500,
   },
   {
@@ -77,6 +77,21 @@ export const CartListTable = () => {
     }
   }
 
+  // 수량 변경(api 요청 이후 실행)
+  const changeQty = (type: string, item: ICartItem) => {
+    if(type === 'decrease' && item.qty <= 1) return;
+
+    const updatedQty = type === 'decrease' ? { qty: item.qty - 1 } : { qty: item.qty + 1 }
+
+    setCartList(
+      cartList.map(
+        (menu: ICartItem) => item.id === menu.id
+          ? { ...menu, ...updatedQty }
+          : menu
+      )
+    );
+  }
+
   return (
     <div className="cart_list_table_wrap">
       <table>
@@ -134,9 +149,9 @@ export const CartListTable = () => {
               </td>
               <td>
                 <div className="inline-block">
-                  <button type="button" className="btn_change_qty btn_decrease">감소</button>
+                  <button type="button" className="btn_change_qty btn_decrease" onClick={() => changeQty('decrease', item)}>감소</button>
                   <input type="text" className="input_qty" value={item.qty} onChange={(e) => inputHandler(e.target.value, item.id)}/>
-                  <button type="button" className="btn_change_qty btn_increase">증가</button>
+                  <button type="button" className="btn_change_qty btn_increase" onClick={() => changeQty('increase', item)}>증가</button>
                 </div>
               </td>
               <td>{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
