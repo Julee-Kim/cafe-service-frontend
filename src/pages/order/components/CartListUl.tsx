@@ -17,7 +17,6 @@ interface ICartItem {
   menu_img: string;
   qty: number;
   price: number;
-  totalPrice: number;
 }
 
 export const CartListUl:React.FC<ICartListProps> = ({ cartList, checkItems, totalPrice, checkAllHandler, checkHandler, changeQty, inputHandler, deleteSelectedMenu }) => {
@@ -66,7 +65,7 @@ export const CartListUl:React.FC<ICartListProps> = ({ cartList, checkItems, tota
                 <div className="w-full pl-5 py-1 flex justify-between flex-col">
                   <div className="flex justify-between">
                     <span className="menu_name">{item.menu_name}</span>
-                    <span className="menu_price">{item.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
+                    <span className="menu_price">{(item.price * item.qty).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
                   </div>
                   <div className="btn_change_qty_wrap inline-block">
                     <button type="button" className="btn_change_qty btn_decrease" onClick={() => changeQty('decrease', item)}>감소</button>

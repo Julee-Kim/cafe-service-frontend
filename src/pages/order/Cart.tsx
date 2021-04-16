@@ -12,7 +12,6 @@ const cartListData: ICartItem[] = [
       "https://image.istarbucks.co.kr/upload/store/skuimg/2019/04/[9200000002153]_20190423145048072.jpg",
     qty: 3,
     price: 6500,
-    totalPrice: 0,
   },
   {
     id: 2,
@@ -21,7 +20,6 @@ const cartListData: ICartItem[] = [
       "https://image.istarbucks.co.kr/upload/store/skuimg/2019/07/[9200000002403]_20190711125729602.jpg",
     qty: 1,
     price: 6000,
-    totalPrice: 0,
   },
 ];
 
@@ -31,7 +29,6 @@ interface ICartItem {
   menu_img: string;
   qty: number;
   price: number;
-  totalPrice: number;
 }
 
 export const Cart = () => {
@@ -50,18 +47,18 @@ export const Cart = () => {
     });
 
     calcTotalPrice();
-  }, []);
+  }, [checkItems]);
 
-  // 주문 금액 합계
+  // 주문 금액 합계 계산
   const calcTotalPrice = () => {
     let totalPriceAll: number = 0;
 
     cartList.forEach(item => {
-      item.totalPrice = item.price * item.qty;
-      totalPriceAll += item.totalPrice;
+      if (checkItems.includes(item.id)) {
+        totalPriceAll += (item.price * item.qty);
+      }
     })
 
-    setCartList(cartList)
     setTotalPrice(totalPriceAll)
   }
 
@@ -80,8 +77,10 @@ export const Cart = () => {
     if (checked) {
       const ids = cartList.map((item: ICartItem) => item.id);
       setCheckItems(ids);
+      calcTotalPrice();
     } else {
       setCheckItems([]);
+      calcTotalPrice();
     }
   };
 
@@ -96,6 +95,7 @@ export const Cart = () => {
     ));
 
     setCartList([...cartList]);
+    calcTotalPrice();
   };
 
   // 선택 상품 삭제
