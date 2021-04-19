@@ -9,22 +9,11 @@
   text-align: center;
   line-height: 19px;
   color: #fff !important;
+  background-color: $pink;
   border-radius: 0.5rem;
 
-
-  &.able {
-    background-color: $pink;
-  
-    &:hover {
-      background-color: #f082ac;
-    }
-  }
-
-  &.disable {
-    background-color: rgb(239,188,207);
-    &:hover {
-      cursor: not-allowed;
-    }
+  &:hover {
+    background-color: #f082ac;
   }
 
   &.btn_auto { width: auto; }
@@ -40,6 +29,14 @@
   
     &:hover {
       background-color: #81cdd2;
+    }
+  }
+
+  &.btn_gray {
+    background-color: gray;
+  
+    &:hover {
+      background-color: gray;
     }
   }
 }

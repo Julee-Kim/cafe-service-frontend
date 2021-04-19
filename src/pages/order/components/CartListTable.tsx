@@ -90,7 +90,7 @@ export const CartListTable: React.FC<ICartListProps> = ({ cartList, checkItems, 
         <button type="button" className="btn_delete_products" onClick={() => deleteSelectedMenu()}>선택 메뉴 삭제</button>
       </div>
       <div className="btn_order_wrap text-center">
-        <Link to="/order" className="btn active btn_order inline-block">주문하기</Link>
+        <Link to="/order" className="btn btn_order inline-block">주문하기</Link>
       </div>
     </div>
   )

@@ -40,7 +40,7 @@ export const Header = () => {
                 <Link to="/login">Sign in</Link>
               </li>
               <li className="signup_wrap">
-                <Link to="/signup" className="block btn able">Sign up</Link>
+                <Link to="/signup" className="block btn">Sign up</Link>
               </li>
             </>
           )

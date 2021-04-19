@@ -237,12 +237,12 @@ export const Order = () => {
             </div>
 
             <div className="btn_order_wrap text-center">
-              <button className="btn active btn_order">주문하기</button>
+              <button className="btn btn_order">주문하기</button>
             </div>
           </div> 
         
           <div className="btn_order_wrap btn_order_wrap--fixed text-center md:block lg:hidden">
-            <Link to="/order" className="btn active btn_order block">12,000원 결제하기</Link>
+            <Link to="/order" className="btn btn_order block">12,000원 결제하기</Link>
           </div>
         </div>     
       </form>    

@@ -41,7 +41,6 @@ export const Profile = () => {
     getValues,
     handleSubmit,
     errors,
-    formState,
   } = useForm<IProfile>({ mode: 'onChange' });
 
   const setAddData = (data: IAddressData) => {
@@ -114,7 +113,6 @@ export const Profile = () => {
             <AddressForm setAddData={setAddData}/>
           </div>
           <Button
-            canClick={formState.isValid}
             loading={false}
             actionText={"회원 정보 수정"}
           />

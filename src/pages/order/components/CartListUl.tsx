@@ -81,7 +81,7 @@ export const CartListUl:React.FC<ICartListProps> = ({ cartList, checkItems, tota
       </ul>
 
       <div className="btn_order_wrap btn_order_wrap--fixed text-center">
-        <Link to="/order" className="btn active btn_order block">{totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 결제하기</Link>
+        <Link to="/order" className="btn btn_order block">{totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 결제하기</Link>
       </div>
     </div>
   )

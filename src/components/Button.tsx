@@ -1,21 +1,17 @@
 import React from 'react';
 
 interface IButtonProps {
-  canClick: boolean;
-  loading: boolean;
+  loading?: boolean;
   actionText: string;
+  customClass?: string;
 }
 
-export const Button: React.FC<IButtonProps> = ({canClick, loading, actionText}) => (
+export const Button: React.FC<IButtonProps> = ({loading, actionText, customClass = ''}) => (
   <button
     role="button"
+    type="submit"
     className={`btn
-      ${
-        canClick
-          ? "able"
-          : "disable"
-      }
+      ${customClass}
     `}
-    disabled={canClick ? false : true}
   >{loading ? "Loading" : actionText}</button>
 );

@@ -15,6 +15,7 @@ label {
 
 input[type='text'],
 input[type='email'],
+input[type='password'],
 select {
   padding: 10px 16px;
   width: 100%;
@@ -51,8 +52,8 @@ select {
 }
 
 .error {
-  color: $red;
-  background: $bg-red;
+  color: $red !important;
+  background: $bg-red !important;
 }
 
 .error_msg {
