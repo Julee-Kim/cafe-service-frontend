@@ -63,7 +63,7 @@ export const Login = () => {
     <div className="container">
       <div className="flex justify-center items-center">
         <div className="w-full max-w-screen-sm auth_wrap login_wrap">
-          <h2>Login in</h2>
+          <h2>로그인</h2>
           <form onSubmit={handleSubmit(onSubmitLogin)}>
             <InputWrap
               type={'email'}

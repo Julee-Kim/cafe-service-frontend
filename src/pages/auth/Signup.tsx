@@ -67,7 +67,7 @@ export const Signup = () => {
     <div className="container">
       <div className="flex justify-center items-center">
         <div className="w-full max-w-screen-sm auth_wrap">
-          <h2>Sign in</h2>
+          <h2>회원 가입</h2>
             <form onSubmit={handleSubmit(signup)}>
               <InputWrap
                 name={'name'}

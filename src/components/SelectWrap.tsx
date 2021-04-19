@@ -26,7 +26,7 @@ export const SelectWrap: React.FC<ISelectWrapProps> = ({
 
   return (
     <div className="input_wrap">
-      {noLabel && (
+      {!noLabel && (
         <label htmlFor={name} className={required ? 'required' : ''}>{labelName}</label>
       )}
       <select 

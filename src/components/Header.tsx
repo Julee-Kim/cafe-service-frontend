@@ -13,10 +13,10 @@ export const Header = () => {
       </h1>
       <ul className="menus">
         <li>
-          <Link to="/menus">Menu</Link>
+          <Link to="/menus">메뉴</Link>
         </li>
         <li>
-          <Link to="/stores">Store</Link>
+          <Link to="/stores">매장</Link>
         </li>
       </ul>
       <ul className="flex items-center ml-auto">
@@ -24,27 +24,22 @@ export const Header = () => {
           ? (
             <>
               <li>
-                <Link to="/cart" className="ico_wrap">
-                  <LocalMall className="ico ico_cart"  />
-                </Link>
-              </li>
-              <li>
                 <Link to="/profile" className="ico_wrap">
                   <Person className="ico ico_user" />
                 </Link>
               </li>
             </>
           ) : (
-            <>
-              <li>
-                <Link to="/login">Sign in</Link>
-              </li>
-              <li className="signup_wrap">
-                <Link to="/signup" className="block btn">Sign up</Link>
-              </li>
-            </>
+            <li className="btn_login_wrap">
+              <Link to="/login" className="btn_login">로그인</Link>
+            </li>
           )
         }
+        <li>
+          <Link to="/cart" className="ico_wrap">
+            <LocalMall className="ico ico_cart"  />
+          </Link>
+        </li>
       </ul>
     </div>
   )
