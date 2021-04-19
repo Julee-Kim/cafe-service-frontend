@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Header } from '../components/Header';
-import { Profile } from '../pages/profile/Profile';
 import { CommonRoutes } from './commonRouter';
+import { Profile } from '../pages/profile/Profile';
+import { Order } from '../pages/order/Order';
 
 export const LoggedInRouter = () => {
   return (
@@ -14,6 +15,7 @@ export const LoggedInRouter = () => {
           </Route>
         ))}
         <Route path="/profile" component={Profile}></Route>
+        <Route path="/order" component={Order}></Route>
       </Switch>
     </Router>
   );

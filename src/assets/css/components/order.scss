@@ -1,6 +1,7 @@
 @charset 'utf-8';
 
 $gray: #d0d0d0;
+$img-border-radius: 3px;
 
 .order {
   position: relative;
@@ -23,6 +24,18 @@ $gray: #d0d0d0;
     tfoot td {
       font-weight: 600;
       background-color: #f9f9f9;
+    }
+  }
+
+  .btn_order_wrap--fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
+    .btn_order {
+      max-width: 100%;
+      border-radius: 0;
     }
   }
 
@@ -65,7 +78,7 @@ $gray: #d0d0d0;
     .product_img {
       display: inline-block;
       width: 100px;
-      border-radius: 3px;
+      border-radius: $img-border-radius;
     }
 
     .product_name {
@@ -144,18 +157,6 @@ $gray: #d0d0d0;
       font-size: 13px;
       
     }
-
-    .btn_order_wrap {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-
-      .btn_order {
-        max-width: 100%;
-        border-radius: 0;
-      }
-    }
   }
 
   // 장바구니 Table & ul 공통 스타일
@@ -215,10 +216,223 @@ $gray: #d0d0d0;
   }
   /// ---------------------- ///
 
+  // 주문 결제
+  &.payment {
+    h3 {
+      margin-bottom: 0;
+      padding-bottom: 1.1rem;
+    }
+
+    .order_info_wrap {
+      table tr td { padding: 1.2rem 3rem; }
+
+      & > div {
+        padding-top: 5rem;
+
+        &:first-child { padding-top: 0; }
+      }
+
+      label.label_radio {
+        margin: 0 30px 0 8px;
+        font-weight: 500;
+        color: $text-gray;
+      }
+
+      .menu_info {
+        h3 {
+          border-bottom: 2px solid #000;
+        }
+
+        .menu_img_wrap {
+          padding: 1.2rem 0.5rem;
+  
+          .menu_img {
+            float: left;
+            width: 140px;
+            border-radius: $img-border-radius;
+          }
+          .menu_name_wrap {
+            float: left;
+            padding: 1.2rem 0 0 1.5rem;
+            text-align: left;
+  
+            .menu_name { font-size: 1.063rem; }
+            .menu_qty { color: $text-gray; }
+            .menu_price {
+              padding-top: 1rem;
+              font-size: 1.1rem;
+            }
+          }
+        }
+      }
+
+      .receiver_info {
+        label.required::after { display: none; }
+
+        .orderer_wrap {
+          margin-bottom: 1.5rem;
+          padding: 1.3rem 0.5rem;
+          border-top: 2px solid #000;
+          border-bottom: 1px solid $gray;
+        }
+
+        .receiver_input_wrap {
+          input[name='name'] { width: 362px; }
+          
+          .input_wrap {
+            padding-bottom: 1rem;
+          }
+          .phone_wrap {
+            display: inline-flex;
+    
+            .input_wrap {
+              margin-left: 6px;
+    
+              &:first-child { margin-left: 0; }
+    
+              select { width: 110px; }
+              input {
+                max-width: 120px;
+              }
+            }
+          }
+        }
+
+        .address_wrap { max-width: 630px; }
+      }
+
+      .payment_kind_info .paypal_wrap {
+        margin-bottom: 1.5rem;
+        padding: 1.3rem 0.5rem;
+        border-top: 2px solid #000;
+
+        .label_radio { color: $text-primary; }
+      }
+    }
+
+    .payment_info {
+      display: none;
+
+      .summary {
+        padding: 30px 30px 28px;
+        width: 100%;
+        border: 2px solid #000;
+
+        li {
+          display: flex;
+          align-items: center;
+          padding: .2rem 0;
+
+          &:last-child { padding-top: .9rem; }
+
+          .summary_label,
+          .summary_value {
+            float: left; 
+            width: 50%;
+          }
+
+          .summary_label {
+            text-align: left;
+            color: #555;
+          }
+          .summary_value {
+            text-align: right;
+          
+            &.order_price {
+              font-size: 18px;
+              font-weight: 700;
+            }
+            &.delivery_price {
+              font-size: 18px;
+              color: #333;
+            }
+            &.total_price {
+              font-size: 30px;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+
+      .btn_order {
+        max-width: 100%;
+        border-radius: 0;
+      }
+    }
+
+    .agree_wrap {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid $gray;
+
+      .agree {
+  
+        li {
+          display: flex;
+          align-items: center;
+          padding: .5rem 0;
+  
+          label {
+            margin-bottom: 0;
+            font-size: 0.875rem;
+            font-weight: 400;
+            color: #555;
+          }
+        }
+      }
+    }
+  }
+
+  @media (min-width: 640px) {
+    &.payment .order_info_wrap .menu_info h3 {
+      border-bottom: 0;
+    }
+  }
+
   @media (min-width: 768px) {
     .order_step {
       display: block;
       padding-bottom: 5rem;
+    }
+
+    &.payment {
+      h3 {
+        margin-bottom: 1.5rem;
+        padding-bottom: 0;
+      }
+
+      .order_info .menu_img_wrap {
+        padding: 1.2rem .5rem 1.2rem 5rem;
+      }
+    }
+  }
+
+  @media (min-width: 1024px) {
+    &.payment {
+      .order_info_wrap {
+        padding-right: 40px;
+        width: calc(100% - 320px);
+      }
+
+      .payment_info {
+        display: block;
+        width: 320px;
+      }
+
+      .agree_wrap {
+        margin-top: 0;
+        padding-top: .3rem;
+        border-top: 0;
+
+        li {
+          padding: .8rem 0 !important;
+          
+          &:first-child {
+            
+            border-bottom: 1px solid $gray;
+          }
+        }
+      }
     }
   }
 }

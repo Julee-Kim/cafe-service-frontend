@@ -65,7 +65,7 @@ export const Profile = () => {
 
   return (
     <div>
-      <div className="container">
+      <div className="container profile">
         <h2>내 정보</h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>

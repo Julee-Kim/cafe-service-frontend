@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 interface ICartListProps {
   cartList: ICartItem[] | [];
@@ -80,7 +81,7 @@ export const CartListUl:React.FC<ICartListProps> = ({ cartList, checkItems, tota
       </ul>
 
       <div className="btn_order_wrap text-center">
-        <button className="btn active btn_order">{totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 결제하기</button>
+        <Link to="/order" className="btn active btn_order block">{totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 결제하기</Link>
       </div>
     </div>
   )

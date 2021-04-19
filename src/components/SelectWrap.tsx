@@ -3,10 +3,11 @@ import React from 'react'
 interface ISelectWrapProps {
   required?: boolean;
   name: string;
-  labelName: string;
+  labelName?: string;
   register: any;
   errors: any;
   options: object;
+  noLabel?: boolean;
 }
 
 export const SelectWrap: React.FC<ISelectWrapProps> = ({
@@ -16,6 +17,7 @@ export const SelectWrap: React.FC<ISelectWrapProps> = ({
   register,
   errors,
   options,
+  noLabel = false,
 }) => {
   const refRegister = register({
     required,
@@ -24,7 +26,9 @@ export const SelectWrap: React.FC<ISelectWrapProps> = ({
 
   return (
     <div className="input_wrap">
-      <label htmlFor={name} className={required ? 'required' : ''}>{labelName}</label>
+      {noLabel && (
+        <label htmlFor={name} className={required ? 'required' : ''}>{labelName}</label>
+      )}
       <select 
         ref={refRegister}
         name={name}

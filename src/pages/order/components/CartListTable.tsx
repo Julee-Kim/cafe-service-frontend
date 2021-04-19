@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 interface ICartListProps {
   cartList: ICartItem[] | [];
@@ -89,7 +90,7 @@ export const CartListTable: React.FC<ICartListProps> = ({ cartList, checkItems, 
         <button type="button" className="btn_delete_products" onClick={() => deleteSelectedMenu()}>선택 메뉴 삭제</button>
       </div>
       <div className="btn_order_wrap text-center">
-        <button className="btn active btn_order">주문하기</button>
+        <Link to="/order" className="btn active btn_order inline-block">주문하기</Link>
       </div>
     </div>
   )
