@@ -1,0 +1,38 @@
+@charset 'utf-8';
+
+.address_form_wrap {
+  > div { padding-bottom: 6px; }
+
+  .zonecode_wrap {
+    display: inline-flex;
+
+    & label {
+      display: block;
+      width: 100%;
+    }
+
+    .zonecode {
+      width: 150px;
+    }
+
+    .btn_search_addr {
+      margin: 0 0 0 7px;
+      width: 100px;
+      height: 38px;
+      color: $purple !important;
+      background-color: rgb(240,243,253);
+    }
+  }
+
+  .address {
+    padding: 10px 16px;
+    height: 38px;
+    color: #0d0c22;
+    background-color: #f3f3f4;
+    border-radius: 8px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .address_wrap .address {margin-bottom: 0;}
+}
