@@ -5,6 +5,7 @@ import { InputWrap } from '../../components/InputWrap';
 import { ModalChangePassword } from './components/ModalChangePassword';
 import { Button } from '../../components/Button';
 import { AddressForm } from '../../components/AddressForm';
+import { ExitToApp } from '@material-ui/icons';
 
 declare global {
   interface Window {
@@ -56,10 +57,24 @@ export const Profile = () => {
     console.log(data)
   }
 
+  const logout = () => {
+    console.log('logout')
+  }
+
   return (
     <div>
       <div className="container profile">
-        <h2>내 정보</h2>
+        <div className="flex justify-between items-top">
+          <h2>내 정보</h2>
+          <button
+            type="button"
+            className="btn btn_logout btn_auto"
+            onClick={logout}
+          >
+            <ExitToApp className="ico ico_logout" />
+            로그 아웃
+          </button>
+        </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
@@ -95,7 +110,7 @@ export const Profile = () => {
               <button type="button" className="btn able btn_change_password btn_mint m-0-import" onClick={() => setShoModal(true)}>비밀번호 변경</button>
             </div>
           </div>
-          <div className="address_wrap input_wrap">
+          <div className="address_wrap input_wrap grid lg:grid-cols-2">
             <AddressForm setAddData={setAddData}/>
           </div>
           <Button

@@ -24,6 +24,7 @@ export const ModalChangePassword: React.FC<IModalChangePasswordProps> = ({ show,
   } = useForm<IChangePassword>({ mode: 'onChange' });
 
   const onSubmit = () => {
+    console.log('onSubmit')
     const { currentPassword, newPassword, newPasswordCheck } = getValues();
     const data = {
       currentPassword, newPassword, newPasswordCheck
@@ -39,7 +40,7 @@ export const ModalChangePassword: React.FC<IModalChangePasswordProps> = ({ show,
   }
 
   return (
-    <div className={show ? 'block' : 'hidden'}>
+    <div className={`${show ? 'block' : 'hidden'} modal_change_password`}>
       <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div className="modal_wrap flex items-end justify-center min-h-screen pt-4 px-4 pb-20 sm:block sm:p-0 text-center">
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
@@ -54,7 +55,6 @@ export const ModalChangePassword: React.FC<IModalChangePasswordProps> = ({ show,
                     비밀번호 변경
                   </h3>
                   <div className="mt-2">
-                    {/* <form onSubmit={handleSubmit(onSubmit)}> */}
                     <form>
                       <InputWrap
                         type={'password'}
@@ -85,16 +85,16 @@ export const ModalChangePassword: React.FC<IModalChangePasswordProps> = ({ show,
             <div className="btn_wrap bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button
                 type="button"
-                className={`btn_change_pw w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm mt-0
+                className={`btn_change_pw able w-full inline-flex justify-center rounded-md px-4 py-2 sm:ml-3 sm:w-auto sm:text-sm mt-0
                   ${formState.isValid ? '' : 'disable'}
                 `}
                 style={{marginTop: 0}}
-                disabled={formState.isValid ? false : true}
                 onClick={handleSubmit(onSubmit)}
               >
                 변경
               </button>
-              <button type="button" className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+              <button type="button"
+                className="btn_modal_cancel w-full inline-flex justify-center rounded-md px-4 py-2 sm:ml-3 sm:w-auto sm:text-sm mt-0"
                 onClick={toggleModal}
               >
                 취소

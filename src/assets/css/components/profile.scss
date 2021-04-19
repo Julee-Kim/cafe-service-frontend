@@ -1,57 +1,42 @@
 @charset 'utf-8';
 
 .profile {
+  .btn_logout {
+    display: flex;
+    align-items: center;
+    margin-top: -.7rem;
+    background-color: #c4c8cc;
+    border-radius: 20px;
+
+    .ico_logout {
+      margin-right: 6px;
+      font-size: 1rem;
+    }
+  }
   .btn_change_password { width: 150px; }
+  .address_wrap { padding-top: 2.7rem; }
+}
 
-  .address_wrap {
-    padding-top: 25px;
+// Modal change password
+.modal_change_password {
+  & > div { background-color: rgba(0,0,0,.1); }
 
-    .zonecode_wrap {
-      display: inline-flex;
-      padding-bottom: 6px;
+  .modal_wrap .modal_inner {
+    background-color: #fff;
 
-      & label {
-        display: block;
-        width: 100%;
+    .btn_wrap {
+      background-color: rgb(249,250,251);
+
+      .btn_change_pw {
+        color: #fff;
+        background-color: $mint;
+    
+        &:hover {background-color: $mint;}
       }
-
-      .zonecode {
-        width: 150px;
-      }
-
-      .btn_search_addr {
-        margin: 0 0 0 7px;
-        width: 100px;
-        color: $purple !important;
-        background-color: rgb(240,243,253);
-      }
-    }
-
-    .address {
-      margin-bottom: 8px;
-      padding: 10px 16px;
-      height: 38px;
-      color: #0d0c22;
-      background-color: #f3f3f4;
-      border-radius: 8px;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .address_wrap .address {margin-bottom: 0;}
-  }
-
-  // Modal change password
-  .btn_change_pw {
-    background-color: $mint;
-
-    &:hover {background-color: $mint;}
-
-    &.disable {
-      background-color: #a2e2e6;
-
-      &:hover {
-        cursor: not-allowed;
+    
+      .btn_modal_cancel {
+        background-color: #fff;
+        border: 1px solid #e2e2e2;
       }
     }
   }
