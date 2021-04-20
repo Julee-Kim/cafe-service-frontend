@@ -8,6 +8,7 @@ interface ISelectWrapProps {
   errors: any;
   options: object;
   noLabel?: boolean;
+  value?: any;
 }
 
 export const SelectWrap: React.FC<ISelectWrapProps> = ({
@@ -18,6 +19,7 @@ export const SelectWrap: React.FC<ISelectWrapProps> = ({
   errors,
   options,
   noLabel = false,
+  value,
 }) => {
   const refRegister = register({
     required,
@@ -34,9 +36,11 @@ export const SelectWrap: React.FC<ISelectWrapProps> = ({
         name={name}
         id={name}
         className={errorsObj ? 'error' : ''}
+        defaultValue={value}
+        value={value}
       >
         <option value="">- 선택 -</option>
-        {Object.keys(options).map((option, index) => <option key={index}>{option}</option>)}
+        {Object.keys(options).map((option, index) => <option key={index} value={option}>{option}</option>)}
       </select>
     </div>
   )

@@ -9,6 +9,7 @@ interface IInputWrapProps {
   errors: any;
   pattern?: any;
   errorMsg?: string;
+  value?: any;
 }
 
 export const InputWrap: React.FC<IInputWrapProps> = ({
@@ -20,6 +21,7 @@ export const InputWrap: React.FC<IInputWrapProps> = ({
   pattern,
   errors,
   errorMsg,
+  value,
 }) => {
   const refRegister = register({
     required,
@@ -29,12 +31,13 @@ export const InputWrap: React.FC<IInputWrapProps> = ({
 
   return (
     <div className="input_wrap">
-      <label htmlFor={name} className={required ? 'required' : ''}>{labelName}</label>
+      {labelName && <label htmlFor={name} className={required ? 'required' : ''}>{labelName}</label>}
       <input
         ref={refRegister}
         type={type}
         name={name}
         id={name}
+        defaultValue={value}
         className={errorsObj ? 'error' : ''}
       />
       {errorsObj?.type === 'pattern' && (

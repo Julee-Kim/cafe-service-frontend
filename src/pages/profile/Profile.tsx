@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import DaumPostcode from 'react-daum-postcode';
 import { useForm } from 'react-hook-form';
 import { InputWrap } from '../../components/InputWrap';
@@ -6,6 +7,41 @@ import { ModalChangePassword } from './components/ModalChangePassword';
 import { Button } from '../../components/Button';
 import { AddressForm } from '../../components/AddressForm';
 import { ExitToApp } from '@material-ui/icons';
+import { isLoggedInVar, tokenVar } from '../../apollo';
+import { useHistory } from 'react-router';
+
+import { LOCALSTORAGE_TOKEN } from '../../constants';
+import { SelectWrap } from '../../components/SelectWrap';
+import { Genders } from '../../__generated__/globalTypes';
+import { getProfile } from '../../__generated__/getProfile';
+import { updateProfile, updateProfileVariables } from '../../__generated__/updateProfile';
+import { useToasts } from 'react-toast-notifications';
+import { checkError } from '../../commonJs';
+
+export const GET_PROFILE = gql`
+  query getProfile {
+    getProfile {
+      id
+      name
+      birth
+      gender
+      email
+      phone
+      address
+      addressDetail
+      zonecode
+    }
+  }
+`;
+
+export const UPDATE_PROFILE = gql`
+  mutation updateProfile($input: UpdateUserInput!) {
+    updateProfile(input: $input) {
+      success
+      error
+    }
+  }
+`;
 
 declare global {
   interface Window {
@@ -14,22 +50,25 @@ declare global {
 }
 
 interface IAddressData {
-  zonecode: string;
-  address: string;
-  addressDetail: string;
+  zonecode: string | null;
+  address: string | null;
+  addressDetail: string | null;
 }
 
 interface IProfile {
   name: string;
   birth: string;
-  gender: string;
+  gender: Genders;
   email: string;
-  address?: string;
-  addressDetail?: string;
-  zonecode?: string;
+  phone?: string;
+  address?: string | null;
+  addressDetail?: string | null;
+  zonecode?: string | null;
 }
 
 export const Profile = () => {
+  const history = useHistory();
+  const { addToast } = useToasts();
   const [showModal, setShoModal] = useState(false);
   const [addressData, setaddressData] = useState<IAddressData>({
     zonecode: '',
@@ -41,19 +80,60 @@ export const Profile = () => {
     getValues,
     handleSubmit,
     errors,
-  } = useForm<IProfile>({ mode: 'onChange' });
+  } = useForm<IProfile>({ mode: 'onChange', defaultValues: {} });
+
+  const { data, loading, error } = useQuery<getProfile>(GET_PROFILE, {
+    fetchPolicy: "no-cache",
+    onCompleted(data) {
+      const obj: IAddressData = {
+        zonecode: data?.getProfile.zonecode,
+        address: data?.getProfile.address,
+        addressDetail: data?.getProfile.addressDetail,
+      }
+
+      setAddData(obj);
+    },
+    onError(error: any) {
+      checkError(error, history, 'profile');
+    }
+  });
+
+  const [ updateProfile, { loading: updateLoading, data: updateData }] = useMutation<updateProfile, updateProfileVariables>(
+    UPDATE_PROFILE, {
+      onCompleted() {
+        addToast('정보가 수정되었습니다.', { appearance: 'success' });
+      },
+      onError(error: any) {
+        checkError(error, history, 'profile');
+      }
+    });
 
   const setAddData = (data: IAddressData) => {
-    console.log('-- setAddData')
-    console.log(data)
+    setaddressData({
+      ...addressData,
+      ...data
+    });
   }
 
   const onSubmit = () => {
-    const { name, birth, gender, email } = getValues();
-    const data = {
-      name, birth, gender, email,
-    };
-    console.log(data)
+    const { name, birth, gender, email, phone } = getValues();
+
+    const data: IProfile = {
+      name,
+      birth,
+      gender,
+      email,
+      phone,
+      address: addressData.address,
+      addressDetail: addressData.addressDetail,
+      zonecode: addressData.zonecode,
+    }
+    
+    updateProfile({
+      variables: {
+        input: data
+      }
+    });
   }
 
   const logout = () => {
@@ -82,18 +162,22 @@ export const Profile = () => {
               labelName={'이름'}
               register={register}
               errors={errors}
+              value={data?.getProfile.name}
             />
             <InputWrap
               name={'birth'}
               labelName={'생년월일'}
               register={register}
               errors={errors}
+              value={data?.getProfile.birth}
             />
-            <InputWrap
+            <SelectWrap
               name={'gender'}
               labelName={'성별'}
               register={register}
               errors={errors}
+              options={Genders}
+              value={data?.getProfile.gender}
             />
             <InputWrap
               type={'email'}
@@ -103,17 +187,50 @@ export const Profile = () => {
               pattern={/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/}
               errors={errors}
               errorMsg={'잘못된 이메일 형식입니다.'}
+              value={data?.getProfile.email}
             />
+            <InputWrap
+              name={'phone'}
+              labelName={'휴대전화'}
+              required={false}
+              register={register}
+              errors={errors}
+              value={data?.getProfile.phone}
+            />
+            {/* <div>
+              <label htmlFor='phoneF'>휴대전화</label>
+              <div className="phone_wrap">
+                <SelectWrap 
+                  name={'phoneF'}
+                  noLabel={true}
+                  register={register}
+                  errors={errors}
+                  options={[{'010': '010'}, {'011': '011'}]}
+                />
+                <InputWrap
+                  name={'phoneM'}
+                  labelName={''}
+                  register={register}
+                  errors={errors}
+                />
+                <InputWrap
+                  name={'phoneL'}
+                  labelName={''}
+                  register={register}
+                  errors={errors}
+                />
+              </div>
+            </div>     */}
             <div className="password">
               <label htmlFor="currentPassword">비밀번호</label>
               <button type="button" className="btn able btn_change_password btn_mint m-0-import" onClick={() => setShoModal(true)}>비밀번호 변경</button>
             </div>
           </div>
           <div className="address_wrap input_wrap grid lg:grid-cols-2">
-            <AddressForm setAddData={setAddData}/>
+            <AddressForm setAddData={setAddData} addressInfoProps={addressData}/>
           </div>
           <Button
-            loading={false}
+            loading={updateLoading}
             actionText={"회원 정보 수정"}
           />
         </form>

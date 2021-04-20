@@ -35,6 +35,18 @@ body {
   margin-bottom: 1.2rem;
 }
 
+.phone_wrap {
+  display: flex;
+
+  .input_wrap {
+    margin-left: 6px;
+
+    &:first-child { margin-left: 0; }
+
+    select { width: 110px; }
+  }
+}
+
 @media (max-width: 767px) {
   .container {
     max-width: 100%;

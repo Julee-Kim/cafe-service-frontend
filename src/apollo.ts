@@ -34,7 +34,7 @@ export const client = new ApolloClient({
             read() {
               return tokenVar();
             }
-          }
+          },
         },
       },
     },

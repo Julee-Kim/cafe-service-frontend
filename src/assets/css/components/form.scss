@@ -31,6 +31,8 @@ select {
   }
 }
 
+select { padding: 9px 16px; }
+
 input,
 select[readonly] {
   &:focus {

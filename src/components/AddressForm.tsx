@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DaumPostcode from 'react-daum-postcode';
 
 declare global {
@@ -27,6 +27,16 @@ export const AddressForm: React.FC<IAddressFormProps> = ({
     address: '',
     addressDetail: '',
   });
+
+  useEffect(() => {
+    // 주소 데이터가 있으면 set
+    if(addressInfoProps) {
+      setAddressData({
+        ...addressData,
+        ...addressInfoProps,
+      })
+    }
+  }, [addressInfoProps])
 
   const execPostCode = () => {
     new window.daum.Postcode({
@@ -91,7 +101,7 @@ export const AddressForm: React.FC<IAddressFormProps> = ({
         />
         <button type="button" className="btn btn_search_addr" onClick={execPostCode}>주소 검색</button>
       </div>
-      <div className="">
+      <div>
         <input
           type="text"
           name="address"
@@ -102,7 +112,7 @@ export const AddressForm: React.FC<IAddressFormProps> = ({
           readOnly
         />
       </div>
-      <div className="">
+      <div>
         <input
           type="text"
           name="addressDetail"
@@ -114,11 +124,12 @@ export const AddressForm: React.FC<IAddressFormProps> = ({
         />
       </div>
 
-      {/* Daum postcode */}
-      <DaumPostcode
-        onComplete={execPostCode}
-        style={{height: 0}}
-      />
+      <div>
+        <DaumPostcode
+          onComplete={execPostCode}
+          style={{height: 0}}
+        />
+      </div>
     </div>
   )
 }

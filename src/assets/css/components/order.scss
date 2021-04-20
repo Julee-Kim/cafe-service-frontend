@@ -282,19 +282,8 @@ $img-border-radius: 3px;
           .input_wrap {
             padding-bottom: 1rem;
           }
-          .phone_wrap {
-            display: inline-flex;
-    
-            .input_wrap {
-              margin-left: 6px;
-    
-              &:first-child { margin-left: 0; }
-    
-              select { width: 110px; }
-              input {
-                max-width: 120px;
-              }
-            }
+          .phone_wrap .input_wrap input {
+            max-width: 120px;
           }
         }
 

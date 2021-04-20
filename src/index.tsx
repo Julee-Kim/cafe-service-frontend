@@ -7,11 +7,14 @@ import './assets/css/tailwind/styles.css';
 import { client } from './apollo';
 import './assets/css/index.scss';
 import { ToastProvider } from 'react-toast-notifications';
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <ToastProvider autoDismiss={true}>
-      <App />
+    <ToastProvider autoDismiss={true} autoDismissTimeout={3000}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </ToastProvider>  
   </ApolloProvider>,
   document.getElementById('root')
