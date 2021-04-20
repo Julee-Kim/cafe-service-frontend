@@ -96,7 +96,7 @@ export const AddressForm: React.FC<IAddressFormProps> = ({
           id="zonecode"
           className="zonecode"
           placeholder="우편번호"
-          value={addressData.zonecode}
+          defaultValue={addressData.zonecode}
           readOnly
         />
         <button type="button" className="btn btn_search_addr" onClick={execPostCode}>주소 검색</button>
@@ -108,7 +108,7 @@ export const AddressForm: React.FC<IAddressFormProps> = ({
           id="address"
           className="address"
           placeholder="도로명 주소"
-          value={addressData.address}
+          defaultValue={addressData.address}
           readOnly
         />
       </div>
@@ -119,7 +119,7 @@ export const AddressForm: React.FC<IAddressFormProps> = ({
           id="addressDetail"
           className="address_detail"
           placeholder="상세주소 입력"
-          value={addressData.addressDetail}
+          defaultValue={addressData.addressDetail}
           onChange={(e) => changeState(e.target.value)}
         />
       </div>

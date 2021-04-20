@@ -34,6 +34,11 @@ export interface LoginInput {
   password: string;
 }
 
+export interface UpdatePasswordInput {
+  password: string;
+  newPassword: string;
+}
+
 export interface UpdateUserInput {
   name: string;
   birth: string;

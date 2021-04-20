@@ -1,6 +1,21 @@
+import { useMutation } from '@apollo/client';
+import gql from 'graphql-tag';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router';
+import { useToasts } from 'react-toast-notifications';
+import { checkError } from '../../../commonJs';
 import { InputWrap } from '../../../components/InputWrap';
+import { updatePassword, updatePasswordVariables } from '../../../__generated__/updatePassword';
+
+const UPDATE_PASSWORD = gql`
+  mutation updatePassword($input: UpdatePasswordInput!) {
+    updatePassword(input: $input) {
+      success
+      error
+    }
+  }
+`;
 
 interface IModalChangePasswordProps {
   show: boolean;
@@ -14,6 +29,8 @@ interface IChangePassword {
 }
 
 export const ModalChangePassword: React.FC<IModalChangePasswordProps> = ({ show, setShoModal }) => {
+  const history = useHistory();
+  const { addToast } = useToasts();
   const toggleModal = () => setShoModal(!show);
   const {
     register,
@@ -21,22 +38,41 @@ export const ModalChangePassword: React.FC<IModalChangePasswordProps> = ({ show,
     handleSubmit,
     errors,
     formState,
+    reset
   } = useForm<IChangePassword>({ mode: 'onChange' });
 
+  const [updatePassword, {loading}] = useMutation<updatePassword, updatePasswordVariables>(UPDATE_PASSWORD, {
+    onCompleted(data) {
+      if(!data.updatePassword.success) {
+        addToast(data.updatePassword.error, { appearance: 'error' });
+      } else {
+        addToast('비밀번호가 변경되었습니다.', { appearance: 'success' });
+        reset();
+        setShoModal(!show);
+      }
+    },
+    onError(error: any) {
+      checkError(error, history, 'profile');
+    }
+  });
+
   const onSubmit = () => {
-    console.log('onSubmit')
     const { currentPassword, newPassword, newPasswordCheck } = getValues();
-    const data = {
-      currentPassword, newPassword, newPasswordCheck
-    };
 
     // 새 비밀번호와 새 비밀번호 확인이 일치하는지 확인
     if (newPassword !== newPasswordCheck) {
-      alert('새로운 비밀번호가 일치하지 않습니다.');
+      addToast('새로운 비밀번호가 일치하지 않습니다.', { appearance: 'warning' });
       return false;
     }
 
-    console.log(data);
+    updatePassword({
+      variables: {
+        input: {
+          password: currentPassword,
+          newPassword: newPassword
+        }
+      }
+    })
   }
 
   return (
