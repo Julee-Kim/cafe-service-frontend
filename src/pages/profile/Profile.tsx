@@ -137,7 +137,10 @@ export const Profile = () => {
   }
 
   const logout = () => {
-    console.log('logout')
+    localStorage.setItem(LOCALSTORAGE_TOKEN, '');
+    tokenVar('');
+    isLoggedInVar(false);
+    history.push('/menus');
   }
 
   return (
