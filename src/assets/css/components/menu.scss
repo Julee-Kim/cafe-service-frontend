@@ -77,11 +77,12 @@
       font-weight: 600;
     }
     small {
+      display: inline-block;
       font-size: 0.9rem;
       color: $purple;
     }
     p {
-      padding-top: 5px;
+      padding-top: 15px;
       font-size: 0.875rem;
       color: $text-dark-gray;
     }
@@ -132,7 +133,13 @@
   }
 
   .desc {
-    padding-top: 2rem;
+    padding: 2rem 0 1rem 0;
+  }
+
+  .btn_wrap {
+    @include fixedBtnWrap();
+
+    .btn_add_cart { @include fixedBtn(); }
   }
 }
 
@@ -149,6 +156,12 @@
       th, td {
         padding: .2rem 1.4rem;
       }
+    }
+
+    .btn_wrap {
+      position: static;
+
+      .btn_add_cart { border-radius: $border-radius-default; }
     }
   }
 }

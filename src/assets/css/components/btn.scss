@@ -39,6 +39,14 @@
       background-color: gray;
     }
   }
+
+  &.btn_purple {
+    background-color: $purple;
+  
+    &:hover {
+      background-color: $purple;
+    }
+  }
 }
 
 @media (min-width: 768px) {

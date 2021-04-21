@@ -28,15 +28,7 @@ $img-border-radius: 3px;
   }
 
   .btn_order_wrap--fixed {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-
-    .btn_order {
-      max-width: 100%;
-      border-radius: 0;
-    }
+    @include fixedBtnWrap();
   }
 
   // 결제 순서 스타일
@@ -155,18 +147,13 @@ $img-border-radius: 3px;
     .btn_delete_products {
       padding: .5rem;
       font-size: 13px;
-      
     }
   }
 
   // 장바구니 Table & ul 공통 스타일
   .btn_order {
-    padding: 1.2rem;
-    height: 55px;
-    font-size: 18px;
-    font-weight: 600;
-    max-width: 250px;
     background-color: $purple;
+    @include fixedBtn();
   }
 
   .btn_delete_products {
@@ -382,6 +369,11 @@ $img-border-radius: 3px;
     .order_step {
       display: block;
       padding-bottom: 5rem;
+    }
+
+    &.order .btn_order {
+      max-width: 250px;
+      border-radius: $border-radius-default;
     }
 
     &.payment {

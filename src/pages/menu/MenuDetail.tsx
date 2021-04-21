@@ -51,7 +51,7 @@ export const MenuDetail = () => {
   console.log(data)
 
   return (
-    <div className="container">
+    <div className="container relative">
       <div className="grid grid-cols-8 xs:gap-0 md:gap-8 lg:gap-12">
         {!loading && (
           <>
@@ -59,52 +59,55 @@ export const MenuDetail = () => {
               <img src={data?.getMenu.menu?.img} alt={data?.getMenu.menu?.productName} />
             </div>
             <div className="menu_info xs:col-span-8 lg:col-span-5 md:col-span-4">
-          <div className="menu_title_wrap">
-            <h2>{data?.getMenu.menu?.productName}</h2>
-            <small>{data?.getMenu.menu?.productName_en}</small>
-            <p>{data?.getMenu.menu?.recommend}</p>
-          </div>
+              <div className="menu_title_wrap">
+                <h2>{data?.getMenu.menu?.productName}</h2>
+                <small>{data?.getMenu.menu?.productName_en}</small>
+                <p>{data?.getMenu.menu?.recommend}</p>
+              </div>
 
-          <div className="nutrition">
-            <div className="nutrition_title_wrap">
-              <h4>제품 영양 정보</h4>
-              <span className="size">{data?.getMenu.menu?.standard}ml</span>
+              <div className="nutrition">
+                <div className="nutrition_title_wrap">
+                  <h4>제품 영양 정보</h4>
+                  <span className="size">{data?.getMenu.menu?.standard}ml</span>
+                </div>
+                <div className="nutrition_table_wrap">
+                  <table className="nutrition_table">
+                    {currentWidth >= 768 && (
+                      <colgroup>
+                        <col width='25%;'/>
+                        <col width='25%;'/>
+                        <col width='25%;'/>
+                        <col width='25%;'/>
+                      </colgroup>
+                    )}
+                    <tbody>
+                      <tr>
+                        <th>1회 제공량(kcal)</th>
+                        <td>{data?.getMenu.menu?.kcal}</td>
+                        <th>나트륨(mg)</th>
+                        <td>{data?.getMenu.menu?.sodium}</td>
+                      </tr>
+                      <tr>
+                        <th>포화지방(g)</th>
+                        <td>{data?.getMenu.menu?.satFAT}</td>
+                        <th>당류(g)</th>
+                        <td>{data?.getMenu.menu?.sugars}</td>
+                      </tr>
+                      <tr>
+                        <th>단백질(g)</th>
+                        <td>{data?.getMenu.menu?.protein}</td>
+                        <th>카페인(mg)</th>
+                        <td>{data?.getMenu.menu?.caffeine}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p className="desc">{data?.getMenu.menu?.content}</p>
+              </div>
+              <div className="btn_wrap text-right">
+                <button type="button" className="btn btn_purple btn_add_cart inline-block">장바구니 담기</button>
+              </div>    
             </div>
-            <div className="nutrition_table_wrap">
-              <table className="nutrition_table">
-                {currentWidth >= 768 && (
-                  <colgroup>
-                    <col width='25%;'/>
-                    <col width='25%;'/>
-                    <col width='25%;'/>
-                    <col width='25%;'/>
-                  </colgroup>
-                )}
-                <tbody>
-                  <tr>
-                    <th>1회 제공량(kcal)</th>
-                    <td>{data?.getMenu.menu?.kcal}</td>
-                    <th>나트륨(mg)</th>
-                    <td>{data?.getMenu.menu?.sodium}</td>
-                  </tr>
-                  <tr>
-                    <th>포화지방(g)</th>
-                    <td>{data?.getMenu.menu?.satFAT}</td>
-                    <th>당류(g)</th>
-                    <td>{data?.getMenu.menu?.sugars}</td>
-                  </tr>
-                  <tr>
-                    <th>단백질(g)</th>
-                    <td>{data?.getMenu.menu?.protein}</td>
-                    <th>카페인(mg)</th>
-                    <td>{data?.getMenu.menu?.caffeine}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <p className="desc">{data?.getMenu.menu?.content}</p>
-          </div>
-        </div>
           </>      
         )}
       </div>

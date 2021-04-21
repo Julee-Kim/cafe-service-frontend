@@ -14,3 +14,19 @@ $red: #ff5555;
 $mint: #4bb7bf;
 
 $border-radius-default: 8px;
+
+@mixin fixedBtnWrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+@mixin fixedBtn {
+  padding: 1.2rem;
+  height: 55px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 0;
+}
