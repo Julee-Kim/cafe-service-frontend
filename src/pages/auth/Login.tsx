@@ -1,13 +1,16 @@
-import { useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import gql from 'graphql-tag'
 import { useForm } from 'react-hook-form'
 import { Link, useHistory } from 'react-router-dom'
 import { useToasts } from 'react-toast-notifications'
-import { isLoggedInVar, tokenVar } from '../../apollo'
+import { isLoggedInVar, tokenVar, userInfoVar } from '../../apollo'
 import { Button } from '../../components/Button'
 import { InputWrap } from '../../components/InputWrap'
-import { LOCALSTORAGE_TOKEN } from '../../constants'
+import { LOCALSTORAGE_TOKEN, LOCALSTORAGE_USERINFO } from '../../constants'
 import { login, loginVariables } from '../../__generated__/login'
+import { getProfile } from '../../__generated__/getProfile';
+import { checkError } from '../../commonJs'
+import { setContext } from '@apollo/client/link/context'
 
 export const LOGIN = gql`
   mutation login($loginInput: LoginInput!) {
@@ -15,6 +18,25 @@ export const LOGIN = gql`
       success
       error
       token
+    }
+  }
+`;
+
+export const GET_PROFILE = gql`
+  query getProfile {
+    getProfile {
+      id
+      name
+      birth
+      gender
+      email
+      phone
+      address
+      addressDetail
+      zonecode, 
+      cart {
+        id
+      }
     }
   }
 `;
@@ -37,19 +59,42 @@ export const Login = () => {
           localStorage.setItem(LOCALSTORAGE_TOKEN, token);
           tokenVar(token);
           isLoggedInVar(true);
+          
+          // set token
+          setContext((_, { headers }) => {
+            return {
+              ...headers,
+              "x-jwt": token
+            }
+          });
 
-          const returnPath = window.location.search.split('=')[1];
-          if (returnPath) {
-            history.push(returnPath);
-          } else {
-            history.push('/menus');
-          }
+          // call user info
+          callGetProfile();
         } else {
           addToast(error, { appearance: 'error' });
         }
       }
     }
   );
+
+  const [ callGetProfile ] = useLazyQuery<getProfile>(GET_PROFILE, {
+    fetchPolicy: "no-cache",
+    onCompleted(data) {
+      const { getProfile } = data;
+      const profile = JSON.stringify(getProfile);
+      localStorage.setItem(LOCALSTORAGE_USERINFO, profile);
+
+      const returnPath = window.location.search.split('=')[1];
+      if (returnPath) {
+        history.push(returnPath);
+      } else {
+        history.push('/menus');
+      }
+    },
+    onError(error: any) {
+      checkError(error);
+    }
+  });
 
   const onSubmitLogin = () => {
     if(!loading) {
