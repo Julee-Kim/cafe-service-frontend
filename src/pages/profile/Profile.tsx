@@ -16,7 +16,7 @@ import { Genders } from '../../__generated__/globalTypes';
 // import { getProfile } from '../../__generated__/getProfile';
 import { updateProfile, updateProfileVariables } from '../../__generated__/updateProfile';
 import { useToasts } from 'react-toast-notifications';
-import { checkError } from '../../commonJs';
+import { checkError, initLoginInfo } from '../../commonJs';
 
 // export const GET_PROFILE = gql`
 //   query getProfile {
@@ -72,7 +72,7 @@ interface IProfile {
 export const Profile = () => {
   useEffect(() => {
     const userInfoValue = userInfoVar();
-    
+
     setUserInfo({
       ...userInfo,
       ...userInfoValue
@@ -142,9 +142,8 @@ export const Profile = () => {
   }
 
   const logout = () => {
-    localStorage.setItem(LOCALSTORAGE_TOKEN, '');
-    tokenVar('');
-    isLoggedInVar(false);
+    // 로그인, 유저 정보 초기화
+    initLoginInfo();
     history.push('/menus');
   }
 

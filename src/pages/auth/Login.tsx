@@ -36,6 +36,13 @@ export const GET_PROFILE = gql`
       zonecode, 
       cart {
         id
+        items {
+          menuId
+          productName
+          img
+          qty
+          price
+        }
       }
     }
   }
