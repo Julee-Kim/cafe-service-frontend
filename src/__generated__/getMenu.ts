@@ -11,6 +11,7 @@ import { GetMenuInput } from "./globalTypes";
 
 export interface getMenu_getMenu_menu {
   __typename: "Menu";
+  id: number;
   productName: string;
   productName_en: string;
   content: string;
@@ -23,6 +24,7 @@ export interface getMenu_getMenu_menu {
   sugars: number;
   caffeine: number;
   img: string;
+  price: number;
 }
 
 export interface getMenu_getMenu {

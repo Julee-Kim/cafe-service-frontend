@@ -20,6 +20,11 @@ export interface CreateAccountInput {
   password: string;
 }
 
+export interface CreateCartItemInput {
+  menuId: number;
+  qty: number;
+}
+
 export interface GetMenuInput {
   menuId: number;
 }
@@ -27,6 +32,14 @@ export interface GetMenuInput {
 export interface GetStoresInput {
   sidoId?: number | null;
   gugunId?: number | null;
+}
+
+export interface ItemInputType {
+  menuId: number;
+  productName: string;
+  img: string;
+  qty: number;
+  price: number;
 }
 
 export interface LoginInput {
@@ -48,6 +61,26 @@ export interface UpdateUserInput {
   zonecode?: string | null;
   address?: string | null;
   addressDetail?: string | null;
+  cart?: cartInputType | null;
+}
+
+export interface UserInputType {
+  name: string;
+  birth: string;
+  gender: Genders;
+  email: string;
+  password: string;
+  phone?: string | null;
+  zonecode?: string | null;
+  address?: string | null;
+  addressDetail?: string | null;
+  cart?: cartInputType | null;
+}
+
+export interface cartInputType {
+  user: UserInputType;
+  userId: number;
+  items: ItemInputType[];
 }
 
 //==============================================================

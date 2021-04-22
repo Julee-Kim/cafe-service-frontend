@@ -19,5 +19,5 @@ export const initLoginInfo = () => {
   localStorage.removeItem(LOCALSTORAGE_USERINFO);
   tokenVar('');
   isLoggedInVar(false);
-  userInfoVar({});
+  userInfoVar('');
 }

@@ -1,8 +1,12 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router';
 import { getMenu, getMenuVariables } from '../../__generated__/getMenu';
+import { createCartItem, createCartItemVariables } from '../../__generated__/createCartItem';
+import { isLoggedInVar } from '../../apollo';
+import { useToasts } from 'react-toast-notifications';
+import { LOCALSTORAGE_CART } from '../../constants'
 
 const MENU_DETAIL = gql`
   query getMenu($input: GetMenuInput!) {
@@ -10,6 +14,7 @@ const MENU_DETAIL = gql`
       success
       error
       menu {
+        id
         productName
         productName_en
         content
@@ -22,7 +27,17 @@ const MENU_DETAIL = gql`
         sugars
         caffeine
         img
+        price
       }
+    }
+  }
+`;
+
+const ADD_CART_ITEM = gql`
+  mutation createCartItem($input: CreateCartItemInput!) {
+    createCartItem(input: $input) {
+      success
+      error
     }
   }
 `;
@@ -32,7 +47,8 @@ interface IMenuParams {
 }
 
 export const MenuDetail = () => {
-  const [currentWidth, setcurrentWidth] = useState(window.innerWidth); // device width(<colgroup> show or hide)
+  const { addToast } = useToasts();
+  const [currentWidth, setcurrentWidth] = useState<number>(window.innerWidth); // device width(<colgroup> show or hide)
 
   useEffect(() => {
     window.addEventListener('resize', () => {
@@ -48,7 +64,76 @@ export const MenuDetail = () => {
       }
     }
   });
-  console.log(data)
+
+  const [ callAddCart ] = useMutation<createCartItem, createCartItemVariables>(ADD_CART_ITEM, {
+    onCompleted(data) {
+      const { createCartItem: { success } } = data;
+      if(success) {
+        addToast('장바구니에 추가되었습니다.', { appearance: 'success' });
+      }
+    },
+    onError(error) {
+      console.log(error);
+      addToast('장바구니에 추가되지 않았습니다.', { appearance: 'error' });
+    }
+  });
+
+  const addCart = () => {
+    // 로그인 여부 확인 
+    if(isLoggedInVar()) {
+      // 로그인 했다면 callAddCart()
+      if(!data?.getMenu.menu?.id) return;
+      callAddCart({
+        variables: {
+          input: {
+            menuId: data?.getMenu.menu?.id,
+            qty: 1
+          }
+        }
+      });
+    } else {
+      // 로그인 안했으면 로컬 스토리지에 저장
+      // 로컬스토리지에 카트가 있는지 확인
+      const detailMenu = data?.getMenu.menu;
+      if(!localStorage.getItem(LOCALSTORAGE_CART)) {
+        const cart = [{
+          menuId: detailMenu?.id,
+          productName: detailMenu?.productName,
+          img: detailMenu?.img,
+          qty: 1,
+          price: detailMenu?.price,
+        }]
+        localStorage.setItem(LOCALSTORAGE_CART, JSON.stringify(cart));
+        addToast('장바구니에 추가되었습니다.', { appearance: 'success' });
+      } else {
+        const localStorageCart = localStorage.getItem(LOCALSTORAGE_CART);
+        const cart = localStorageCart ? JSON.parse(localStorageCart) : [];
+        let isNewItem = true; // 새로 추가되는 메뉴인지 여부
+
+        cart?.forEach((item:any) => {
+          // 카트에 이미 메뉴가 담겨있으면 수량만 증가
+          if(item.id === detailMenu?.id) {
+            item.qty++;
+            isNewItem = false;
+          }
+        });
+
+        // 카트에 담겨있지 않은 메뉴면 메뉴아이디와 수량 추가
+        if(isNewItem) {
+          cart.push({
+            menuId: detailMenu?.id,
+            productName: detailMenu?.productName,
+            img: detailMenu?.img,
+            qty: 1,
+            price: detailMenu?.price,
+          });
+        }
+
+        localStorage.setItem(LOCALSTORAGE_CART, JSON.stringify(cart));
+        addToast('장바구니에 추가되었습니다.', { appearance: 'success' });
+      }
+    }
+  }
 
   return (
     <div className="container relative">
@@ -105,7 +190,11 @@ export const MenuDetail = () => {
                 <p className="desc">{data?.getMenu.menu?.content}</p>
               </div>
               <div className="btn_wrap text-right">
-                <button type="button" className="btn btn_purple btn_add_cart inline-block">장바구니 담기</button>
+                <button
+                  type="button"
+                  className="btn btn_purple btn_add_cart inline-block"
+                  onClick={addCart}
+                >장바구니 담기</button>
               </div>    
             </div>
           </>      
