@@ -69,9 +69,11 @@ export const CartListTable: React.FC<ICartListProps> = ({ cartList, checkItems, 
                   onChange={(e) => checkHandler(e.target.checked, item.menuId)}
                 />
               </td>
-              <td>
-                <img src={item.img} className="product_img" alt={item.productName}/>
-                <span className="product_name">{item.productName}</span>
+              <td className="menu_img_wrap">
+                <div className="product_img_area">
+                  <img src={item.img} className="product_img" alt={item.productName}/>
+                  <span className="product_name">{item.productName}</span>
+                </div>
               </td>
               <td>
                 <div className="inline-block">

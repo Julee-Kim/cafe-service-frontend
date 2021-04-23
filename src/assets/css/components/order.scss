@@ -73,8 +73,18 @@ $img-border-radius: 3px;
       border-radius: $img-border-radius;
     }
 
-    .product_name {
-      padding-left: 15px;
+    table tr td.menu_img_wrap {
+      padding-left: 1rem;
+      text-align: left;
+      .product_img_area {
+        display: inline-flex;
+        align-items: center;
+  
+        .product_name {
+          padding-left: 15px;
+          // text-align: left;
+        }
+      }
     }
 
     .btn_delete_products_wrap {
@@ -389,6 +399,10 @@ $img-border-radius: 3px;
   }
 
   @media (min-width: 1024px) {
+    &.order .cart_list_table_wrap table tr td.menu_img_wrap {
+      padding-left: 5rem;
+    }
+
     &.payment {
       .order_info_wrap {
         padding-right: 40px;
