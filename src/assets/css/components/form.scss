@@ -23,7 +23,7 @@ select {
   background-color: #f3f3f4;
   border-radius: 8px;
 
-  &:focus {
+  &:not(:read-only):focus {
     background-color: #fff;
     border: 1px solid rgba(234,76,137,0.4);
     box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);

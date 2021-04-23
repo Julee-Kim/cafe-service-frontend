@@ -1,30 +1,27 @@
-import { useLazyQuery, useMutation } from "@apollo/client";
-import { data } from "autoprefixer";
+import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router";
 import { useToasts } from "react-toast-notifications";
 import { isLoggedInVar, userInfoVar } from "../../apollo";
 import { checkError } from "../../commonJs";
 import { LOCALSTORAGE_CART, LOCALSTORAGE_USERINFO } from "../../constants";
-import { createCartItems, createCartItemsVariables } from "../../__generated__/createCartItems";
+import { createCartItems, createCartItemsVariables, createCartItems_createCartItems_cart } from "../../__generated__/createCartItems";
+import { deleteCartItems, deleteCartItemsVariables } from "../../__generated__/deleteCartItems";
+import { updateCartItemQty, updateCartItemQtyVariables } from "../../__generated__/updateCartItemQty";
 import { updateCartItems, updateCartItemsVariables } from "../../__generated__/updateCartItems";
 import { CartListTable } from "./components/CartListTable";
 import { CartListUl } from "./components/CartListUl";
 import { OrderStep } from "./components/OrderStep";
 
-const GET_CART_ITEMS = gql`
-  query getCartItems {
-    getCartItems {
-      success
-      error
-      results {
-        menuId
-        productName
-        qty
-        price
-        img
-      }
+const CART_FRAGMENT = gql`
+  fragment CartParts on Cart {
+    id
+    items {
+      menuId
+      productName
+      qty
+      price
+      img
     }
   }
 `;
@@ -35,6 +32,7 @@ const UPDATE_CART_ITEMS = gql`
       success
       error,
       cart {
+        id
         items {
           menuId
           productName
@@ -53,17 +51,37 @@ const CREATE_CART_ITEMS = gql`
       success
       error
       cart {
-        id
-        items {
-          menuId
-          productName
-          qty
-          price
-          img
-        }
+        ...CartParts
       }
     }
   }
+  ${CART_FRAGMENT}
+`;
+
+const UPDATE_CART_ITEM_QTY = gql`
+  mutation updateCartItemQty($input: UpdateCartItemQtyInput!) {
+    updateCartItemQty(input: $input) {
+      success
+      error
+      cart {
+        ...CartParts
+      }
+    }
+  }
+  ${CART_FRAGMENT}
+`;
+
+const DELETE_CART_ITEMS = gql`
+  mutation deleteCartItems($input: DeleteCartItemsInput!) {
+    deleteCartItems(input: $input) {
+      success
+      error
+      cart {
+        ...CartParts
+      }
+    }
+  }
+  ${CART_FRAGMENT}
 `;
 
 interface ICartItem {
@@ -75,7 +93,6 @@ interface ICartItem {
 }
 
 export const Cart = () => {
-  const history = useHistory();
   const [windowWidth, setWindowWidth] = useState<number>(0);
 
   const { addToast } = useToasts();
@@ -87,18 +104,11 @@ export const Cart = () => {
   const [ callUpdateCartItems ] = useMutation<updateCartItems, updateCartItemsVariables>(
     UPDATE_CART_ITEMS, {
       onCompleted(data) {
-        if (data.updateCartItems.success) {
-          // 로컬스토리지 장바구니 삭제
-          localStorage.removeItem(LOCALSTORAGE_CART);
+        // 로컬스토리지 장바구니 삭제
+        localStorage.removeItem(LOCALSTORAGE_CART);
 
-          // apollo client 유저 카트 업데이트
-          userInfoVar().cart.items = data.updateCartItems.cart.items;
-          // localStorage 유저 카트 업데이트
-          const localStorageUser = localStorage.getItem(LOCALSTORAGE_USERINFO);
-          const localUser = localStorageUser ? JSON.parse(localStorageUser) : [];
-          localUser.cart = data.updateCartItems.cart;
-          localStorage.setItem(LOCALSTORAGE_USERINFO, JSON.stringify(localUser));
-        }
+        // apollo client, localStorage의 유저 카트 업데이트
+        updateUserCart(data.updateCartItems.cart);
       },
       onError(error: any) {
         checkError(error);
@@ -108,23 +118,38 @@ export const Cart = () => {
   const [ callCreateCartItems ] = useMutation<createCartItems, createCartItemsVariables>(
     CREATE_CART_ITEMS, {
       onCompleted(data) {
-        if (data.createCartItems.success) {
-          // 로컬스토리지 장바구니 삭제
-          localStorage.removeItem(LOCALSTORAGE_CART);
+        // 로컬스토리지 장바구니 삭제
+        localStorage.removeItem(LOCALSTORAGE_CART);
 
-          // apollo client 유저 카트 업데이트
-          userInfoVar().cart = data.createCartItems.cart;
-          // localStorage 유저 카트 업데이트
-          const localStorageUser = localStorage.getItem(LOCALSTORAGE_USERINFO);
-          const localUser = localStorageUser ? JSON.parse(localStorageUser) : [];
-          localUser.cart = data.createCartItems.cart;
-          localStorage.setItem(LOCALSTORAGE_USERINFO, JSON.stringify(localUser));
-        }
+        // apollo client, localStorage의 유저 카트 업데이트
+        updateUserCart(data.createCartItems.cart);
       },
       onError(error: any) {
         checkError(error);
       }
     });  
+
+  const [ callUpdateCartItemQty ] = useMutation<updateCartItemQty, updateCartItemQtyVariables>(
+    UPDATE_CART_ITEM_QTY, {
+      onCompleted(data) {
+        // apollo client, localStorage의 유저 카트 업데이트
+        updateUserCart(data.updateCartItemQty.cart);
+      },
+      onError(error: any) {
+        checkError(error);
+      }
+    });
+
+  const [ callDeleteCartItems ] = useMutation<deleteCartItems, deleteCartItemsVariables>(
+    DELETE_CART_ITEMS, {
+      onCompleted(data) {
+        // apollo client, localStorage의 유저 카트 업데이트
+        updateUserCart(data.deleteCartItems.cart);
+      },
+      onError(error: any) {
+        checkError(error);
+      }
+    });
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
@@ -136,7 +161,7 @@ export const Cart = () => {
     if(isFirstLoading && isLoggedInVar()) {
       // - 로그인한 사용자
       setIsFirstLoading(false);
-      setLoggedIn();
+      setLoggedIn(); 
     } else if(isFirstLoading && !isLoggedInVar()) {
       // - 로그인 안한 사용자
       setIsFirstLoading(false);
@@ -320,23 +345,8 @@ export const Cart = () => {
     }
   };
 
-  // 수량 핸들러
-  const inputHandler = (value: string, itemId: number) => {
-    let updateValue = +value;
-
-    if (updateValue <= 0) updateValue = 1;
-
-    cartList.map((menu: ICartItem) => (
-      menu.menuId === itemId ? menu.qty = updateValue : menu
-    ));
-
-    setCartList([...cartList]);
-    calcTotalPrice();
-  };
-
   // 선택 상품 삭제
   const deleteSelectedMenu = () => {
-    console.log(checkItems);
     // 선택한 상품이 없는 경우 warning toast
     if (!checkItems.length) {
       addToast("선택된 메뉴가 없습니다", { appearance: "warning" });
@@ -344,12 +354,35 @@ export const Cart = () => {
     }
 
     if (window.confirm("메뉴를 삭제하시겠습니까?")) {
-      console.log("delete!");
-      // 삭제 api처리 후, res => cartList받아서 setCartList()
+      // 삭제하는 상품을 제외한 장바구니 목록
+      const exceptDeleteItems = cartList?.filter((item: ICartItem) => {
+        return checkItems.indexOf(item.menuId) === -1;
+      });
+
+      setCartList(exceptDeleteItems);
+
+      // 로그인 했다면 수량 변경 api
+      if(isLoggedInVar()) {
+        callDeleteCartItems({
+          variables: {
+            input: {
+              menuIds: checkItems
+            }
+          }
+        });
+      } else {
+        // 로그인 안했으면 로컬스토리지 장바구니 수정
+        if(exceptDeleteItems.length) {
+          localStorage.setItem(LOCALSTORAGE_CART, JSON.stringify(exceptDeleteItems));
+        } else {
+          // exceptDeleteItems이 빈 배열이면 로컬스토리지 장바구니 삭제
+          localStorage.removeItem(LOCALSTORAGE_CART);
+        }
+      }
     }
   };
 
-  // 수량 변경(api 요청 이후 실행)
+  // 수량 변경(버튼 클릭)
   const changeQty = (type: string, item: ICartItem) => {
     if (type === "decrease" && item.qty <= 1) return;
 
@@ -364,7 +397,52 @@ export const Cart = () => {
 
     setCartList(arr);
     calcTotalPrice();
+
+    // 로그인 했다면 수량 변경 api
+    if(isLoggedInVar()) {
+      callUpdateCartItemQty({
+        variables: {
+          input: {
+            menuId: item.menuId,
+            qty: item.qty
+          }
+        }
+      });
+    } else {
+      // 로그인 안했으면 로컬스토리지 장바구니 수정
+      updateLocalCart(item.menuId, item.qty);
+    }
   };
+
+  // (로그인 X) 수량 변경 후, 로컬스토리지 장바구니 업데이트
+  const updateLocalCart = (menuId: number, qty: number) => {
+    const localStorageCart = localStorage.getItem(LOCALSTORAGE_CART);
+    const localCart = localStorageCart ? JSON.parse(localStorageCart) : [];
+
+    let i: number;
+    for(i = 0; i < localCart.length; i++) {
+      const item = localCart[i];
+
+      if(item.menuId === menuId) {
+        item.qty = qty;
+      }
+      break;
+    }
+
+    localStorage.setItem(LOCALSTORAGE_CART, JSON.stringify(localCart));
+  }
+
+  // (로그인 O) 장바구니 아이템 수정 후
+  // apollo client, localStorage의 유저 카트 업데이트
+  const updateUserCart = (updatedCart: createCartItems_createCartItems_cart | null) => {
+    // apollo client 유저 카트 업데이트
+    userInfoVar().cart = updatedCart;
+    // localStorage 유저 카트 업데이트
+    const localStorageUser = localStorage.getItem(LOCALSTORAGE_USERINFO);
+    const localUser = localStorageUser ? JSON.parse(localStorageUser) : [];
+    localUser.cart = updatedCart;
+    localStorage.setItem(LOCALSTORAGE_USERINFO, JSON.stringify(localUser));
+  }
 
   return (
     <div className="container order">
@@ -383,7 +461,6 @@ export const Cart = () => {
                 checkAllHandler={checkAllHandler}
                 checkHandler={checkHandler}
                 changeQty={changeQty}
-                inputHandler={inputHandler}
                 deleteSelectedMenu={deleteSelectedMenu}
               />
             ) : (
@@ -394,7 +471,6 @@ export const Cart = () => {
                 checkAllHandler={checkAllHandler}
                 checkHandler={checkHandler}
                 changeQty={changeQty}
-                inputHandler={inputHandler}
                 deleteSelectedMenu={deleteSelectedMenu}
               />
             )}

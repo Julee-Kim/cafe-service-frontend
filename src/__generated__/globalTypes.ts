@@ -34,6 +34,10 @@ export interface CreateCartItemsInput {
   items: CartItem[];
 }
 
+export interface DeleteCartItemsInput {
+  menuIds: number[];
+}
+
 export interface GetMenuInput {
   menuId: number;
 }
@@ -54,6 +58,11 @@ export interface ItemInputType {
 export interface LoginInput {
   email: string;
   password: string;
+}
+
+export interface UpdateCartItemQtyInput {
+  menuId: number;
+  qty: number;
 }
 
 export interface UpdateCartItemsInput {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 interface ICartListProps {
@@ -8,7 +8,6 @@ interface ICartListProps {
   checkAllHandler: Function;
   checkHandler: Function;
   changeQty: Function;
-  inputHandler: Function;
   deleteSelectedMenu: Function;
 }
 
@@ -20,7 +19,7 @@ interface ICartItem {
   price: number;
 }
 
-export const CartListUl:React.FC<ICartListProps> = ({ cartList, checkItems, totalPrice, checkAllHandler, checkHandler, changeQty, inputHandler, deleteSelectedMenu }) => {
+export const CartListUl:React.FC<ICartListProps> = ({ cartList, checkItems, totalPrice, checkAllHandler, checkHandler, changeQty, deleteSelectedMenu }) => {
   return (
     <div className="cart_list_ul_wrap">
       <div className="cart_list_ul_header check_and_delete_wrap">
@@ -70,7 +69,7 @@ export const CartListUl:React.FC<ICartListProps> = ({ cartList, checkItems, tota
                   </div>
                   <div className="btn_change_qty_wrap inline-block">
                     <button type="button" className="btn_change_qty btn_decrease" onClick={() => changeQty('decrease', item)}>감소</button>
-                    <input type="text" className="input_qty" value={item.qty} onChange={(e) => inputHandler(e.target.value, item.menuId)}/>
+                    <input type="text" className="input_qty" value={item.qty} readOnly/>
                     <button type="button" className="btn_change_qty btn_increase" onClick={() => changeQty('increase', item)}>증가</button>
                   </div>
                 </div>

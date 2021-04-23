@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: getCartItems
+// GraphQL fragment: CartParts
 // ====================================================
 
-export interface getCartItems_getCartItems_results {
+export interface CartParts_items {
   __typename: "Item";
   menuId: number;
   productName: string;
@@ -16,13 +16,8 @@ export interface getCartItems_getCartItems_results {
   img: string;
 }
 
-export interface getCartItems_getCartItems {
-  __typename: "GetCartItemsOutput";
-  success: boolean;
-  error: string | null;
-  results: getCartItems_getCartItems_results[] | null;
-}
-
-export interface getCartItems {
-  getCartItems: getCartItems_getCartItems;
+export interface CartParts {
+  __typename: "Cart";
+  id: number;
+  items: CartParts_items[];
 }

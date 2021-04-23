@@ -20,6 +20,7 @@ export interface updateCartItems_updateCartItems_cart_items {
 
 export interface updateCartItems_updateCartItems_cart {
   __typename: "Cart";
+  id: number;
   items: updateCartItems_updateCartItems_cart_items[];
 }
 
