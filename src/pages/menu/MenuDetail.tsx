@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router';
 import { getMenu, getMenuVariables } from '../../__generated__/getMenu';
 import { createCartItem, createCartItemVariables } from '../../__generated__/createCartItem';
-import { isLoggedInVar } from '../../apollo';
+import { isLoggedInVar, userInfoVar } from '../../apollo';
 import { useToasts } from 'react-toast-notifications';
-import { LOCALSTORAGE_CART } from '../../constants'
+import { LOCALSTORAGE_CART, LOCALSTORAGE_USERINFO } from '../../constants'
 
 const MENU_DETAIL = gql`
   query getMenu($input: GetMenuInput!) {
@@ -38,6 +38,16 @@ const ADD_CART_ITEM = gql`
     createCartItem(input: $input) {
       success
       error
+      cart {
+        id
+        items {
+          menuId
+          productName
+          img
+          qty
+          price
+        }
+      }
     }
   }
 `;
@@ -67,7 +77,18 @@ export const MenuDetail = () => {
 
   const [ callAddCart ] = useMutation<createCartItem, createCartItemVariables>(ADD_CART_ITEM, {
     onCompleted(data) {
-      const { createCartItem: { success } } = data;
+      const { createCartItem: { success, cart } } = data;
+
+      // localStorage userInfo 업데이트 
+      let userInfo = {
+        ...userInfoVar(),
+        cart: cart
+      }
+
+      const strUserInfo = JSON.stringify(userInfo);
+      localStorage.setItem(LOCALSTORAGE_USERINFO, strUserInfo);
+      userInfoVar(userInfo);
+
       if(success) {
         addToast('장바구니에 추가되었습니다.', { appearance: 'success' });
       }
@@ -99,9 +120,9 @@ export const MenuDetail = () => {
         const cart = [{
           menuId: detailMenu?.id,
           productName: detailMenu?.productName,
-          img: detailMenu?.img,
           qty: 1,
           price: detailMenu?.price,
+          img: detailMenu?.img,
         }]
         localStorage.setItem(LOCALSTORAGE_CART, JSON.stringify(cart));
         addToast('장바구니에 추가되었습니다.', { appearance: 'success' });
@@ -123,9 +144,9 @@ export const MenuDetail = () => {
           cart.push({
             menuId: detailMenu?.id,
             productName: detailMenu?.productName,
-            img: detailMenu?.img,
             qty: 1,
             price: detailMenu?.price,
+            img: detailMenu?.img,
           });
         }
 

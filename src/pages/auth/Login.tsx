@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import { useForm } from 'react-hook-form'
 import { Link, useHistory } from 'react-router-dom'
 import { useToasts } from 'react-toast-notifications'
-import { isLoggedInVar, tokenVar } from '../../apollo'
+import { isLoggedInVar, tokenVar, userInfoVar } from '../../apollo'
 import { Button } from '../../components/Button'
 import { InputWrap } from '../../components/InputWrap'
 import { LOCALSTORAGE_TOKEN, LOCALSTORAGE_USERINFO } from '../../constants'
@@ -90,6 +90,7 @@ export const Login = () => {
       const { getProfile } = data;
       const profile = JSON.stringify(getProfile);
       localStorage.setItem(LOCALSTORAGE_USERINFO, profile);
+      userInfoVar(getProfile)
 
       const returnPath = window.location.search.split('=')[1];
       if (returnPath) {

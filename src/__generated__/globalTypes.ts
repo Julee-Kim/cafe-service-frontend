@@ -12,6 +12,11 @@ export enum Genders {
   M = "M",
 }
 
+export interface CartItem {
+  menuId: number;
+  qty: number;
+}
+
 export interface CreateAccountInput {
   name: string;
   birth: string;
@@ -23,6 +28,10 @@ export interface CreateAccountInput {
 export interface CreateCartItemInput {
   menuId: number;
   qty: number;
+}
+
+export interface CreateCartItemsInput {
+  items: CartItem[];
 }
 
 export interface GetMenuInput {
@@ -45,6 +54,10 @@ export interface ItemInputType {
 export interface LoginInput {
   email: string;
   password: string;
+}
+
+export interface UpdateCartItemsInput {
+  items: ItemInputType[];
 }
 
 export interface UpdatePasswordInput {

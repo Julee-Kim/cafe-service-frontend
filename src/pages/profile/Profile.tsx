@@ -70,24 +70,30 @@ interface IProfile {
 }
 
 export const Profile = () => {
+  const history = useHistory();
+
   useEffect(() => {
     const userInfoValue = userInfoVar();
 
-    setUserInfo({
-      ...userInfo,
-      ...userInfoValue
-    });
-
-    const obj: IAddressData = {
-      zonecode: userInfoValue.zonecode,
-      address: userInfoValue.address,
-      addressDetail: userInfoValue.addressDetail,
+    if(userInfoValue) {
+      setUserInfo({
+        ...userInfo,
+        ...userInfoValue
+      });
+  
+      const obj: IAddressData = {
+        zonecode: userInfoValue.zonecode,
+        address: userInfoValue.address,
+        addressDetail: userInfoValue.addressDetail,
+      }
+  
+      setAddData(obj);
+    } else {
+      alert('로그인으로 이동합니다.');
+      history.push('/login?return=profile');
     }
-
-    setAddData(obj);
   }, []);
 
-  const history = useHistory();
   const { addToast } = useToasts();
   const [showModal, setShoModal] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<IProfile>();

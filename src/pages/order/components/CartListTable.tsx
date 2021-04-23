@@ -13,9 +13,9 @@ interface ICartListProps {
 }
 
 interface ICartItem {
-  id: number;
-  menu_name: string;
-  menu_img: string;
+  menuId: number;
+  productName: string;
+  img: string;
   qty: number;
   price: number;
 }
@@ -57,8 +57,8 @@ export const CartListTable: React.FC<ICartListProps> = ({ cartList, checkItems, 
           </tr>
         </tfoot>
         <tbody>
-          {cartList.map((item: ICartItem, index: number) => (
-            <tr key={item.id}>
+          {cartList.length && cartList?.map((item: ICartItem, index: number) => (
+            <tr key={item.menuId}>
               <td>{index + 1}</td>
               <td>
                 <input
@@ -66,18 +66,18 @@ export const CartListTable: React.FC<ICartListProps> = ({ cartList, checkItems, 
                   name={`selectMenu${index}`}
                   id={`selectMenu${index}`}
                   value={''}
-                  checked={checkItems.some(id => id === item.id) ? true : false}
-                  onChange={(e) => checkHandler(e.target.checked, item.id)}
+                  checked={checkItems.some(id => id === item.menuId) ? true : false}
+                  onChange={(e) => checkHandler(e.target.checked, item.menuId)}
                 />
               </td>
               <td>
-                <img src={item.menu_img} className="product_img" alt={item.menu_name}/>
-                <span className="product_name">{item.menu_name}</span>
+                <img src={item.img} className="product_img" alt={item.productName}/>
+                <span className="product_name">{item.productName}</span>
               </td>
               <td>
                 <div className="inline-block">
                   <button type="button" className="btn_change_qty btn_decrease" onClick={() => changeQty('decrease', item)}>감소</button>
-                  <input type="text" className="input_qty" value={item.qty} onChange={(e) => inputHandler(e.target.value, item.id)}/>
+                  <input type="text" className="input_qty" value={item.qty} onChange={(e) => inputHandler(e.target.value, item.menuId)}/>
                   <button type="button" className="btn_change_qty btn_increase" onClick={() => changeQty('increase', item)}>증가</button>
                 </div>
               </td>
