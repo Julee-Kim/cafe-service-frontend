@@ -1,6 +1,6 @@
 import { ApolloClient, createHttpLink, InMemoryCache, makeVar } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { LOCALSTORAGE_TOKEN, LOCALSTORAGE_USERINFO } from "./constants";
+import { LOCALSTORAGE_TOKEN, LOCALSTORAGE_USERINFO, LOCALSTORAGE_ORDER } from "./constants";
 
 const token = localStorage.getItem(LOCALSTORAGE_TOKEN);
 export const tokenVar = makeVar(token);
@@ -8,6 +8,9 @@ export const isLoggedInVar = makeVar(Boolean(token));
 const userInfo = localStorage.getItem(LOCALSTORAGE_USERINFO);
 const user = userInfo ? JSON.parse(userInfo) : '';
 export const userInfoVar = makeVar(user);
+const LocalOrder = localStorage.getItem(LOCALSTORAGE_ORDER);
+const order = LocalOrder ? JSON.parse(LocalOrder) : '';
+export const orderVar = makeVar(order);
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
@@ -41,6 +44,11 @@ export const client = new ApolloClient({
           userInfo: {
             read() {
               return userInfoVar();
+            }
+          },
+          order: {
+            read() {
+              return orderVar();
             }
           }
         },

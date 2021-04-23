@@ -9,6 +9,7 @@ interface ICartListProps {
   checkHandler: Function;
   changeQty: Function;
   deleteSelectedMenu: Function;
+  orderHandler: Function;
 }
 
 interface ICartItem {
@@ -19,7 +20,16 @@ interface ICartItem {
   price: number;
 }
 
-export const CartListTable: React.FC<ICartListProps> = ({ cartList, checkItems, totalPrice, checkAllHandler, checkHandler, changeQty, deleteSelectedMenu }) => {
+export const CartListTable: React.FC<ICartListProps> = ({
+  cartList,
+  checkItems,
+  totalPrice,
+  checkAllHandler,
+  checkHandler,
+  changeQty,
+  deleteSelectedMenu,
+  orderHandler
+}) => {
   return (
     <div className="cart_list_table_wrap">
       <table>
@@ -91,7 +101,7 @@ export const CartListTable: React.FC<ICartListProps> = ({ cartList, checkItems, 
         <button type="button" className="btn_delete_products" onClick={() => deleteSelectedMenu()}>선택 메뉴 삭제</button>
       </div>
       <div className="btn_order_wrap text-center">
-        <Link to="/order" className="btn btn_order inline-block">주문하기</Link>
+        <button type="button" className="btn btn_order inline-block" onClick={() => orderHandler()}>주문하기</button>
       </div>
     </div>
   )

@@ -1,10 +1,11 @@
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router";
 import { useToasts } from "react-toast-notifications";
-import { isLoggedInVar, userInfoVar } from "../../apollo";
+import { isLoggedInVar, orderVar, userInfoVar } from "../../apollo";
 import { checkError } from "../../commonJs";
-import { LOCALSTORAGE_CART, LOCALSTORAGE_USERINFO } from "../../constants";
+import { LOCALSTORAGE_CART, LOCALSTORAGE_USERINFO, LOCALSTORAGE_ORDER } from "../../constants";
 import { createCartItems, createCartItemsVariables, createCartItems_createCartItems_cart } from "../../__generated__/createCartItems";
 import { deleteCartItems, deleteCartItemsVariables } from "../../__generated__/deleteCartItems";
 import { updateCartItemQty, updateCartItemQtyVariables } from "../../__generated__/updateCartItemQty";
@@ -93,6 +94,7 @@ interface ICartItem {
 }
 
 export const Cart = () => {
+  const history = useHistory();
   const [windowWidth, setWindowWidth] = useState<number>(0);
 
   const { addToast } = useToasts();
@@ -444,6 +446,31 @@ export const Cart = () => {
     localStorage.setItem(LOCALSTORAGE_USERINFO, JSON.stringify(localUser));
   }
 
+  const orderHandler = () => {
+    // 선택한 상품이 없는 경우 warning toast
+    if (!checkItems.length) {
+      addToast("선택된 메뉴가 없습니다", { appearance: "warning" });
+      return false;
+    }
+
+    if(isLoggedInVar()) {
+      // apollo client, localStorage에 주문할 아이템 set
+      const orderItems = cartList.filter(item => {
+        return checkItems.indexOf(item.menuId) !== -1;
+      });
+
+      // set localStorage
+      localStorage.setItem(LOCALSTORAGE_ORDER, JSON.stringify(orderItems));
+
+      // set apollo client
+      orderVar(orderItems);
+
+      history.push('/order');
+    } else {
+      history.push('/login?return=cart');
+    }
+  }
+
   return (
     <div className="container order">
       <h2>장바구니</h2>
@@ -462,6 +489,7 @@ export const Cart = () => {
                 checkHandler={checkHandler}
                 changeQty={changeQty}
                 deleteSelectedMenu={deleteSelectedMenu}
+                orderHandler={orderHandler}
               />
             ) : (
               <CartListTable
@@ -472,6 +500,7 @@ export const Cart = () => {
                 checkHandler={checkHandler}
                 changeQty={changeQty}
                 deleteSelectedMenu={deleteSelectedMenu}
+                orderHandler={orderHandler}
               />
             )}
           </div>

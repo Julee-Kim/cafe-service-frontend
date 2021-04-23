@@ -9,6 +9,7 @@ interface ICartListProps {
   checkHandler: Function;
   changeQty: Function;
   deleteSelectedMenu: Function;
+  orderHandler: Function;
 }
 
 interface ICartItem {
@@ -19,7 +20,16 @@ interface ICartItem {
   price: number;
 }
 
-export const CartListUl:React.FC<ICartListProps> = ({ cartList, checkItems, totalPrice, checkAllHandler, checkHandler, changeQty, deleteSelectedMenu }) => {
+export const CartListUl:React.FC<ICartListProps> = ({
+  cartList,
+  checkItems,
+  totalPrice,
+  checkAllHandler,
+  checkHandler,
+  changeQty,
+  deleteSelectedMenu,
+  orderHandler
+}) => {
   return (
     <div className="cart_list_ul_wrap">
       <div className="cart_list_ul_header check_and_delete_wrap">
@@ -80,7 +90,9 @@ export const CartListUl:React.FC<ICartListProps> = ({ cartList, checkItems, tota
       </ul>
 
       <div className="btn_order_wrap btn_order_wrap--fixed text-center">
-        <Link to="/order" className="btn btn_order block">{totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 결제하기</Link>
+        <button type="button" className="btn btn_order block" onClick={() => orderHandler()}>
+          {totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 결제하기
+        </button>
       </div>
     </div>
   )
