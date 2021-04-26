@@ -1,47 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import DaumPostcode from 'react-daum-postcode';
+import { useState, useEffect } from 'react';
+import { gql, useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
 import { InputWrap } from '../../components/InputWrap';
 import { ModalChangePassword } from './components/ModalChangePassword';
 import { Button } from '../../components/Button';
 import { AddressForm } from '../../components/AddressForm';
 import { ExitToApp } from '@material-ui/icons';
-import { isLoggedInVar, tokenVar, userInfoVar } from '../../apollo';
+import { userInfoVar } from '../../apollo';
 import { useHistory } from 'react-router';
-
-import { LOCALSTORAGE_TOKEN } from '../../constants';
 import { SelectWrap } from '../../components/SelectWrap';
 import { Genders } from '../../__generated__/globalTypes';
-// import { getProfile } from '../../__generated__/getProfile';
 import { updateProfile, updateProfileVariables } from '../../__generated__/updateProfile';
 import { useToasts } from 'react-toast-notifications';
 import { checkError, initLoginInfo } from '../../commonJs';
-
-// export const GET_PROFILE = gql`
-//   query getProfile {
-//     getProfile {
-//       id
-//       name
-//       birth
-//       gender
-//       email
-//       phone
-//       address
-//       addressDetail
-//       zonecode, 
-//       cart {
-//         id
-//       }
-//     }
-//   }
-// `;
+import { LOCALSTORAGE_USERINFO } from '../../constants';
 
 export const UPDATE_PROFILE = gql`
   mutation updateProfile($input: UpdateUserInput!) {
     updateProfile(input: $input) {
       success
       error
+      user {
+        name
+        birth
+        gender
+        email
+        phone
+        zonecode
+        address
+        addressDetail
+        cart {
+          id
+          items {
+            menuId
+            productName
+            qty
+            price
+            img
+          }
+        }
+      }
     }
   }
 `;
@@ -52,10 +50,10 @@ declare global {
   }
 }
 
-interface IAddressData {
-  zonecode: string | null;
-  address: string | null;
-  addressDetail: string | null;
+interface IAddr { 
+  address: string;
+  addressDetail: string;
+  zonecode: string;
 }
 
 interface IProfile {
@@ -63,10 +61,10 @@ interface IProfile {
   birth: string;
   gender: Genders;
   email: string;
-  phone?: string;
-  address?: string | null;
-  addressDetail?: string | null;
-  zonecode?: string | null;
+  phone?: string | '';
+  address?: string | '';
+  addressDetail?: string | '';
+  zonecode?: string | '';
 }
 
 export const Profile = () => {
@@ -80,14 +78,6 @@ export const Profile = () => {
         ...userInfo,
         ...userInfoValue
       });
-  
-      const obj: IAddressData = {
-        zonecode: userInfoValue.zonecode,
-        address: userInfoValue.address,
-        addressDetail: userInfoValue.addressDetail,
-      }
-  
-      setAddData(obj);
     } else {
       alert('로그인으로 이동합니다.');
       history.push('/login?return=profile');
@@ -97,21 +87,34 @@ export const Profile = () => {
   const { addToast } = useToasts();
   const [showModal, setShoModal] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<IProfile>();
-  const [addressData, setaddressData] = useState<IAddressData>({
-    zonecode: '',
-    address: '',
-    addressDetail: '',
-  });
   const {
     register,
     getValues,
     handleSubmit,
     errors,
-  } = useForm<IProfile>({ mode: 'onChange', defaultValues: {} });
+    setValue,
+  } = useForm<IProfile>({
+    mode: 'onChange',
+    defaultValues: {
+      name: userInfoVar().name,
+      birth: userInfoVar().birth,
+      gender: userInfoVar().gender,
+      email: userInfoVar().email,
+      phone: userInfoVar().phone,
+      address: userInfoVar().address,
+      addressDetail: userInfoVar().addressDetail,
+      zonecode: userInfoVar().zonecode,
+  }});
 
-  const [ updateProfile, { loading: updateLoading, data: updateData }] = useMutation<updateProfile, updateProfileVariables>(
+  const [ updateProfile, { loading: updateLoading }] = useMutation<updateProfile, updateProfileVariables>(
     UPDATE_PROFILE, {
-      onCompleted() {
+      onCompleted(data) {
+        const updatedUser = data.updateProfile.user;
+        // apollo client 유저 정보 업데이트
+        userInfoVar(updatedUser);
+        // localStorage 유저 정보 업데이트
+        localStorage.setItem(LOCALSTORAGE_USERINFO, JSON.stringify(updatedUser));
+
         addToast('정보가 수정되었습니다.', { appearance: 'success' });
       },
       onError(error: any) {
@@ -119,15 +122,34 @@ export const Profile = () => {
       }
     });
 
-  const setAddData = (data: IAddressData) => {
-    setaddressData({
-      ...addressData,
-      ...data
-    });
-  }
+  // AddressForm으로부터 받은 주소 데이터 셋팅
+  const fromChildSetValue = (addrObj: any) => {
+    for(let key in addrObj) {
+      switch (key) {
+        case 'address':
+          setValue('address', addrObj[key]);
+          break;
+        case 'addressDetail':
+          setValue('addressDetail', addrObj[key]);
+          break;
+        case 'zonecode':
+          setValue('zonecode', addrObj[key]);
+          break;    
+      }
+    }
+  }  
 
   const onSubmit = () => {
-    const { name, birth, gender, email, phone } = getValues();
+    const {
+      name,
+      birth,
+      gender,
+      email,
+      phone,
+      address,
+      addressDetail,
+      zonecode,
+    } = getValues();
 
     const data: IProfile = {
       name,
@@ -135,9 +157,9 @@ export const Profile = () => {
       gender,
       email,
       phone,
-      address: addressData.address,
-      addressDetail: addressData.addressDetail,
-      zonecode: addressData.zonecode,
+      address,
+      addressDetail,
+      zonecode,
     }
     
     updateProfile({
@@ -175,14 +197,12 @@ export const Profile = () => {
               labelName={'이름'}
               register={register}
               errors={errors}
-              value={userInfo?.name}
             />
             <InputWrap
               name={'birth'}
               labelName={'생년월일'}
               register={register}
               errors={errors}
-              value={userInfo?.birth}
             />
             <SelectWrap
               name={'gender'}
@@ -190,7 +210,6 @@ export const Profile = () => {
               register={register}
               errors={errors}
               options={Genders}
-              value={userInfo?.gender}
             />
             <InputWrap
               type={'email'}
@@ -200,7 +219,6 @@ export const Profile = () => {
               pattern={/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/}
               errors={errors}
               errorMsg={'잘못된 이메일 형식입니다.'}
-              value={userInfo?.email}
             />
             <InputWrap
               name={'phone'}
@@ -208,7 +226,6 @@ export const Profile = () => {
               required={false}
               register={register}
               errors={errors}
-              value={userInfo?.phone}
             />
             {/* <div>
               <label htmlFor='phoneF'>휴대전화</label>
@@ -240,7 +257,11 @@ export const Profile = () => {
             </div>
           </div>
           <div className="address_wrap input_wrap grid lg:grid-cols-2">
-            <AddressForm setAddData={setAddData} addressInfoProps={addressData}/>
+            <AddressForm
+              register={register}
+              errors={errors}
+              setValue={fromChildSetValue}
+            />
           </div>
           <Button
             loading={updateLoading}
