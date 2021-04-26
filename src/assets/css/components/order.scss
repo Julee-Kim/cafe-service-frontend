@@ -264,8 +264,6 @@ $img-border-radius: 3px;
       }
 
       .receiver_info {
-        label.required::after { display: none; }
-
         .orderer_wrap {
           margin-bottom: 1.5rem;
           padding: 1.3rem 0.5rem;
@@ -297,9 +295,10 @@ $img-border-radius: 3px;
     }
 
     .payment_info {
-      display: none;
+      h3 { display: none; }
 
       .summary {
+        display: none;
         padding: 30px 30px 28px;
         width: 100%;
         border: 2px solid #000;
@@ -340,10 +339,19 @@ $img-border-radius: 3px;
         }
       }
 
-      .btn_order {
-        max-width: 100%;
-        border-radius: 0;
+      .btn_order_wrap {
+        display: none;
+        
+        .btn_order { 
+          max-width: 100%;
+          border-radius: 0;
+        }
       }
+    }
+
+    .btn_order_wrap.btn_order_wrap--fixed .btn_order {
+      max-width: 100%;
+      border-radius: 0;
     }
 
     .agree_wrap {
@@ -412,6 +420,8 @@ $img-border-radius: 3px;
       .payment_info {
         display: block;
         width: 320px;
+
+        h3, .summary, .btn_order_wrap { display: block; }
       }
 
       .agree_wrap {

@@ -28,7 +28,7 @@ export interface deleteCartItems_deleteCartItems {
   __typename: "DeleteCartItemsOutput";
   success: boolean;
   error: string | null;
-  cart: deleteCartItems_deleteCartItems_cart;
+  cart: deleteCartItems_deleteCartItems_cart | null;
 }
 
 export interface deleteCartItems {
