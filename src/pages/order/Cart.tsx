@@ -480,7 +480,7 @@ export const Cart = () => {
 
       {cartList.length ? (
         <>
-          <OrderStep />
+          <OrderStep step={1}/>
           
           <div className="table_wrap">
             {windowWidth < 768 ? (

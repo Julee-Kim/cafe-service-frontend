@@ -203,7 +203,7 @@ export const Order = () => {
     <div className="container order payment">
       <h2>주문결제</h2>
 
-      <OrderStep />
+      <OrderStep step={2} />
 
       <form>
         <div className="lg:flex lg:items-start">

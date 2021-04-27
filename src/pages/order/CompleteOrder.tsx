@@ -66,7 +66,7 @@ export const CompleteOrder = () => {
     <div className="container order complete">
       <h2>주문완료</h2>
 
-      <OrderStep />
+      <OrderStep step={3} />
 
       <div className="flex justify-center items-center complete_text_wrap">
         <CheckCircleOutline className="ico_check"/>
