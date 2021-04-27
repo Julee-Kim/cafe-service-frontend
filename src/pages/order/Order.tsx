@@ -1,13 +1,28 @@
+import { useMutation } from "@apollo/client";
+import gql from "graphql-tag";
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useHistory } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
 import { isLoggedInVar, userInfoVar } from "../../apollo";
+import { checkError } from "../../commonJs";
 import { AddressForm } from "../../components/AddressForm";
 import { InputWrap } from "../../components/InputWrap";
 import { SelectWrap } from "../../components/SelectWrap";
 import { LOCALSTORAGE_ORDER, LOCALSTORAGE_USERINFO } from "../../constants";
+import { createPayment, createPaymentVariables } from "../../__generated__/createPayment";
+import { OrderInputType } from "../../__generated__/globalTypes";
+import { BtnPaypal } from "./components/BtnPaypal";
 import { OrderStep } from "./components/OrderStep";
+
+const CREATE_PAYMENT = gql`
+  mutation createPayment($input: CreatePaymentInput!) {
+    createPayment(input: $input) {
+      success
+      error
+    }
+  }
+`;
 
 interface ICartItem {
   menuId: number;
@@ -38,6 +53,7 @@ export const Order = () => {
     handleSubmit,
     errors,
     setValue,
+    formState
   } = useForm({
     mode: 'onChange',
     defaultValues: {
@@ -47,6 +63,16 @@ export const Order = () => {
       addressDetail: userInfoVar().addressDetail,
       zonecode: userInfoVar().zonecode,
   }});
+
+  const [ callCreatePayment ] = useMutation<createPayment, createPaymentVariables>(CREATE_PAYMENT, {
+    onCompleted() {
+      // 주문 완료 페이지로 이동
+      history.push('/order/complete');
+    },
+    onError(error: any) {
+      checkError(error);
+    }
+  });
 
   useEffect(() => {
     // 로그인한 사용자가 아니라면 로그인 페이지로 이동
@@ -132,18 +158,13 @@ export const Order = () => {
     }
   }
 
-  // 주문하기
-  const onSubmitOrder = () => {
-    console.log(agree)
-    if (!agree.agree1) {
-      addToast('주문 상품 정보에 동의는 필수입니다.', { appearance: 'error' });
-      return false;
+  const checkValid = () => {
+    if(!formState.isValid) {
+      addToast('받으시는 분 정보는 필수입니다.', { appearance: 'error' });
     }
-    if (!agree.agree2) {
-      addToast('개인정보 제 3자 제공 동의 필수입니다.', { appearance: 'error' });
-      return false;
-    }
+  }
 
+  const transactionSuccess = (orderData: OrderInputType) => {
     const { 
       name,
       phone,
@@ -151,24 +172,31 @@ export const Order = () => {
       addressDetail,
       zonecode,
     } = getValues();
-    let data = {
-      name,
-      phone,
-      address,
-      addressDetail,
-      zonecode,
-    }
-    console.log(data)
+    
+    const menuIdsArr = orderList.map((item: ICartItem) => {
+      return item.menuId;
+    });
 
-    // if(!loading) {
-    //   const { email, password } = getValues();
+    callCreatePayment({
+      variables: {
+        input: {
+          menuIds: menuIdsArr,
+          data: {...orderData},
+          receiverName: name,
+          receiverPhone: phone,
+          receiverAddress: address,
+          receiverAddressDetail: addressDetail,
+          receiverZonecode: zonecode,
+          totalPrice: totalPrice,
+          orderPrice: orderPrice,
+          deliveryPrice: deliveryPrice,
+        }
+      }
+    })
+  }
 
-    //   login({
-    //     variables: {
-    //       loginInput: { email, password }
-    //     }
-    //   });
-    // }
+  const transactionError = () => {
+    console.log('-- Paypal error')
   }
 
   return (
@@ -177,7 +205,7 @@ export const Order = () => {
 
       <OrderStep />
 
-      <form onSubmit={handleSubmit(onSubmitOrder)}>
+      <form>
         <div className="lg:flex lg:items-start">
           <div className="order_info_wrap">
             {/* menu_info */}
@@ -303,6 +331,7 @@ export const Order = () => {
           {/* payment_info */}
           <div className="payment_info">
             <h3>결제 금액 정보</h3>
+            <p>{formState.isValid}</p>
             <ul className="summary inline-block">
               <li>
                 <span className="summary_label">주문 금액</span>
@@ -317,38 +346,15 @@ export const Order = () => {
                 <span className="summary_value total_price">{totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
               </li>
             </ul>
-            <div className="agree_wrap">
-              <ul className="agree">
-                <li>
-                  <input
-                    type="checkbox"
-                    name="agree1"
-                    id="agree1"
-                    onChange={() => setagree({...agree, agree1: !agree.agree1})}
-                  />
-                  <label htmlFor="agree1">주문 상품 정보에 동의(필수)</label>
-                </li>
-                <li>
-                  <input
-                    type="checkbox"
-                    name="agree2"
-                    id="agree2"
-                    onChange={() => setagree({...agree, agree2: !agree.agree2})}
-                  />
-                  <label htmlFor="agree2">개인정보 제 3자 제공 동의 (필수)</label>
-                </li>
-              </ul>
-            </div>
 
-            <div className="btn_order_wrap text-center">
-              <button className="btn btn_order">주문하기</button>
+            <div className={`${!formState.isValid ? 'disable' : ''}`} onClick={checkValid}>
+              <div className="paypal_guard"></div>
+              <BtnPaypal
+                total={totalPrice}
+                transactionSuccess={transactionSuccess}
+                transactionError={transactionError}
+              />
             </div>
-          </div> 
-        
-          <div className="btn_order_wrap btn_order_wrap--fixed text-center md:block lg:hidden">
-            <button className="btn btn_order block">
-              {totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 결제하기
-            </button>
           </div>
         </div>     
       </form>    

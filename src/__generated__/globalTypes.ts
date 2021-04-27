@@ -34,6 +34,19 @@ export interface CreateCartItemsInput {
   items: CartItem[];
 }
 
+export interface CreatePaymentInput {
+  menuIds: number[];
+  data: OrderInputType;
+  receiverName: string;
+  receiverPhone: string;
+  receiverAddress: string;
+  receiverAddressDetail: string;
+  receiverZonecode: string;
+  totalPrice: number;
+  orderPrice: number;
+  deliveryPrice: number;
+}
+
 export interface DeleteCartItemsInput {
   menuIds: number[];
 }
@@ -60,6 +73,28 @@ export interface LoginInput {
   password: string;
 }
 
+export interface OrderInputType {
+  billingToken?: string | null;
+  facilitatorAccessToken: string;
+  orderID: string;
+  payerID: string;
+  paymentID?: string | null;
+}
+
+export interface PaymentInputType {
+  user: UserInputType;
+  menuIds: number[];
+  data: OrderInputType;
+  receiverName: string;
+  receiverPhone: string;
+  receiverAddress: string;
+  receiverAddressDetail: string;
+  receiverZonecode: string;
+  totalPrice: number;
+  orderPrice: number;
+  deliveryPrice: number;
+}
+
 export interface UpdateCartItemQtyInput {
   menuId: number;
   qty: number;
@@ -84,6 +119,7 @@ export interface UpdateUserInput {
   address?: string | null;
   addressDetail?: string | null;
   cart?: cartInputType | null;
+  payment?: PaymentInputType | null;
 }
 
 export interface UserInputType {
@@ -97,6 +133,7 @@ export interface UserInputType {
   address?: string | null;
   addressDetail?: string | null;
   cart?: cartInputType | null;
+  payment?: PaymentInputType | null;
 }
 
 export interface cartInputType {
