@@ -207,6 +207,9 @@ $img-border-radius: 3px;
     border-width: 1px 0;
     border-radius: 0;
   }
+  .btn_order_wrap--fixed {
+    @include fixedBtnWrap();
+  }
   /// ---------------------- ///
 
   // 주문 결제

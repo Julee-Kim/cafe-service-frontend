@@ -381,6 +381,9 @@ export const Cart = () => {
           localStorage.removeItem(LOCALSTORAGE_CART);
         }
       }
+
+      // 선택된 아이템 초기화
+      setCheckItems([]);
     }
   };
 
@@ -472,7 +475,7 @@ export const Cart = () => {
   }
 
   return (
-    <div className="container order">
+    <div className="container order cart">
       <h2>장바구니</h2>
 
       {cartList.length ? (
