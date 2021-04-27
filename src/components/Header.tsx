@@ -1,9 +1,18 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import { isLoggedInVar } from '../apollo'
 import { LocalMall, Person } from '@material-ui/icons';
+import { gql, useQuery } from '@apollo/client';
+
+const GET_IS_LOGGEDIN = gql`
+  query isLoggedIn {
+    isLoggedIn @client
+  }
+`;
 
 export const Header = () => {
+  const { data } = useQuery(GET_IS_LOGGEDIN);
+
   return (
     <div className="header flex justify-center items-center">
       <h1 className="logo_wrap">
@@ -20,7 +29,7 @@ export const Header = () => {
         </li>
       </ul>
       <ul className="flex items-center ml-auto">
-        {isLoggedInVar()
+        {data.isLoggedIn
           ? (
             <>
               <li>
