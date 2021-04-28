@@ -2,6 +2,7 @@ import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
 import { isLoggedInVar, orderVar, userInfoVar } from "../../apollo";
 import { checkError } from "../../commonJs";
@@ -509,7 +510,11 @@ export const Cart = () => {
           </div>
         </>  
       ) : (
-        <p>장바구니에 담긴 상품이 없습니다.</p>
+        <div className="empty_cart">
+          <img src="/images/box.png" className="img_empty" alt="empty cart"/>
+          <p className="empty_text">장바구니에 담긴 메뉴가 없습니다.</p>
+          <Link to="/menus" className="btn btn_go_menus inline-block">메뉴로 이동</Link>
+        </div>
       )}
     </div>
   );

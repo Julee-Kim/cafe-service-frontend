@@ -60,107 +60,6 @@ $img-border-radius: 3px;
       }
     }
   }
-  
-  // 장바구니 table
-  .cart_list_table_wrap {
-    .product_img {
-      display: inline-block;
-      width: 100px;
-      border-radius: $img-border-radius;
-    }
-
-    table tr td.menu_img_wrap {
-      padding-left: 1rem;
-      text-align: left;
-      .product_img_area {
-        display: inline-flex;
-        align-items: center;
-  
-        .product_name {
-          padding-left: 15px;
-          // text-align: left;
-        }
-      }
-    }
-
-    .btn_delete_products_wrap {
-      padding: 1rem 0 2rem;
-
-      .btn_delete_products {
-        padding: .8rem 1.7rem;
-        font-size: 0.875rem;
-      }
-    }
-  }
-
-  // 장바구니 ul
-  .cart_list_ul_wrap {
-    margin: 0 -1rem;
-
-    .select_wrap > * {
-      display: inline-block;
-      margin-bottom: 0;
-    }
-
-    .check_and_delete_wrap {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      .btn_delete_menu { color: #929292; }
-    }
-
-    .cart_list_ul_header {
-      padding: 1rem;
-      background-color: $bg-gray; 
-
-      .check_all_wrap label {
-        font-size: 13px;
-        font-weight: 500;
-      }
-    }
-
-    .cart_list_ul {
-      li {
-        padding: 1rem 0;
-        border-bottom: 1px solid $border-gray;
-
-        .menu_info_wrap {
-          padding: 1rem;
-
-          .menu_info {
-            display: inline-flex;
-            padding-top: 1rem;
-            width: 100%;
-
-            .product_img {
-              width: 140px;
-              border-radius: 5px;;
-            }
-
-            .menu_name {
-              font-weight: 600;
-            }
-            .menu_price {
-              font-size: 21px;
-              font-weight: 600;
-            }
-          }
-        }
-      }
-    }
-
-    .btn_delete_products {
-      padding: .5rem;
-      font-size: 13px;
-    }
-  }
-
-  // 장바구니 Table & ul 공통 스타일
-  .btn_order {
-    background-color: $purple;
-    @include fixedBtn();
-  }
 
   .btn_delete_products {
     font-weight: 600;
@@ -211,6 +110,130 @@ $img-border-radius: 3px;
     @include fixedBtnWrap();
   }
   /// ---------------------- ///
+
+  &.cart {
+     // 장바구니 table
+    .cart_list_table_wrap {
+      .product_img {
+        display: inline-block;
+        width: 100px;
+        border-radius: $img-border-radius;
+      }
+
+      table tr td.menu_img_wrap {
+        padding-left: 1rem;
+        text-align: left;
+        .product_img_area {
+          display: inline-flex;
+          align-items: center;
+    
+          .product_name {
+            padding-left: 15px;
+            // text-align: left;
+          }
+        }
+      }
+
+      .btn_delete_products_wrap {
+        padding: 1rem 0 2rem;
+
+        .btn_delete_products {
+          padding: .8rem 1.7rem;
+          font-size: 0.875rem;
+        }
+      }
+    }
+
+    // 장바구니 ul
+    .cart_list_ul_wrap {
+      margin: 0 -1rem;
+
+      .select_wrap > * {
+        display: inline-block;
+        margin-bottom: 0;
+      }
+
+      .check_and_delete_wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .btn_delete_menu { color: #929292; }
+      }
+
+      .cart_list_ul_header {
+        padding: 1rem;
+        background-color: $bg-gray; 
+
+        .check_all_wrap label {
+          font-size: 13px;
+          font-weight: 500;
+        }
+      }
+
+      .cart_list_ul {
+        li {
+          padding: 1rem 0;
+          border-bottom: 1px solid $border-gray;
+
+          .menu_info_wrap {
+            padding: 1rem;
+
+            .menu_info {
+              display: inline-flex;
+              padding-top: 1rem;
+              width: 100%;
+
+              .product_img {
+                width: 140px;
+                border-radius: 5px;;
+              }
+
+              .menu_name {
+                font-weight: 600;
+              }
+              .menu_price {
+                font-size: 21px;
+                font-weight: 600;
+              }
+            }
+          }
+        }
+      }
+
+      .btn_delete_products {
+        padding: .5rem;
+        font-size: 13px;
+      }
+    }
+
+    // 장바구니 Table & ul 공통 스타일
+    .btn_order {
+      background-color: $purple;
+      @include fixedBtn();
+    }
+
+    .empty_cart {
+      padding-top: 2rem;
+      text-align: center;
+      
+      .img_empty {
+        margin: 0 auto;
+        width: 20%;
+        min-width: 120px;
+        max-width: 200px;
+      }
+      .empty_text {
+        padding: 1.5rem 0 3rem;
+        font-size: 1.125rem;
+        font-weight: 600;
+      }
+      .btn_go_menus {
+        width: 200px;
+        background-color: $mint;
+      }
+    }
+  }
 
   // 주문 결제
   &.payment {
