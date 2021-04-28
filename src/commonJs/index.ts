@@ -9,7 +9,7 @@ export const checkError = (error: any, history?: any, returnPath?: string) => {
     alert('로그인으로 이동합니다.');
     history.push(`/login?return=${returnPath}`);
   } else {
-    alert(error.message);
+    console.log(error.message);
   }
 }
 

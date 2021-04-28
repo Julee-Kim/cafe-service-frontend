@@ -250,7 +250,7 @@ export const Cart = () => {
     } else {
       // -- 2. 로그인 유저 카트 없는 경우 -- //
       // 로컬카트가 있는지 확인
-      if(localCart) {
+      if(localCart.length) {
         // 로컬 카트 = cartList
         setCartList([
           ...cartList,
