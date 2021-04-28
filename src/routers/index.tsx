@@ -1,4 +1,4 @@
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import { Login } from '../pages/auth/Login';
 import { Signup } from '../pages/auth/Signup';
 import { MenuDetail } from '../pages/menu/MenuDetail';
@@ -68,6 +68,7 @@ export const Routers = () => {
         {signInUpRoutes.map(route => (
           <Route key={route.path} path={route.path} component={LoggedInCheck(route.component, <MenuList/>)} exact />
         ))}
+        <Redirect path="*" to="/menus"/>
       </Switch>
     </>
   );
