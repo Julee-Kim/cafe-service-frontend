@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { PayPalButton } from "react-paypal-button-v2";
 
 interface IPaypalProps {
@@ -8,7 +7,6 @@ interface IPaypalProps {
 }
 
 export const BtnPaypal: React.FC<IPaypalProps> = ({
-  total,
   transactionSuccess,
   transactionError,
 }) => {
@@ -21,13 +19,10 @@ export const BtnPaypal: React.FC<IPaypalProps> = ({
       amount={1}
 
       onSuccess={(details: object, data: object) => {
-        // console.log('details => ', details)
-        
         transactionSuccess(data);
       }}
 
       catchError={(err: any) => {
-        console.log("Error!", err);
         transactionError();
       }}
     />

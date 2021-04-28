@@ -1,15 +1,14 @@
 import { useMutation } from "@apollo/client";
 import gql from "graphql-tag";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
-import { isLoggedInVar, orderVar, userInfoVar } from "../../apollo";
+import { userInfoVar } from "../../apollo";
 import { checkError } from "../../commonJs";
 import { AddressForm } from "../../components/AddressForm";
 import { InputWrap } from "../../components/InputWrap";
-import { SelectWrap } from "../../components/SelectWrap";
-import { LOCALSTORAGE_ORDER, LOCALSTORAGE_USERINFO } from "../../constants";
+import { LOCALSTORAGE_ORDER } from "../../constants";
 import { createPayment, createPaymentVariables } from "../../__generated__/createPayment";
 import { OrderInputType } from "../../__generated__/globalTypes";
 import { BtnPaypal } from "./components/BtnPaypal";
@@ -35,22 +34,16 @@ interface ICartItem {
 export const Order = () => {
   const history = useHistory();
   const { addToast } = useToasts();
-  const [windowWidth, setWindowWidth] = useState<number>(0);
   const [isFirstLoading, setIsFirstLoading] = useState(true);
   const [receiverType, setReceiverType] = useState<string>('orderer')
   const [orderList, setOrderList] = useState<ICartItem[] | []>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0); // 총 결제금액
   const [orderPrice, setOrderPrice] = useState<number>(0); // 주문금액
   const [deliveryPrice, setDeliveryPrice] = useState<number>(3000); // 배송비
-  const [agree, setagree] = useState({
-    agree1: false,
-    agree2: false,
-  })
 
   const {
     register,
     getValues,
-    handleSubmit,
     errors,
     setValue,
     formState
@@ -75,12 +68,6 @@ export const Order = () => {
   });
 
   useEffect(() => {
-    setWindowWidth(window.innerWidth);
-
-    window.addEventListener("resize", () => {
-      setWindowWidth(window.innerWidth);
-    });
-
     if(isFirstLoading) {
       // - 로그인한 사용자
       setIsFirstLoading(false);

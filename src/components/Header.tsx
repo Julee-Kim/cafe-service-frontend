@@ -1,6 +1,4 @@
-import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
-import { isLoggedInVar } from '../apollo'
 import { LocalMall, Person } from '@material-ui/icons';
 import { gql, useQuery } from '@apollo/client';
 

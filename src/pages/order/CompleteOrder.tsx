@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { LOCALSTORAGE_ORDER, LOCALSTORAGE_USERINFO } from "../../constants";
 import { orderVar, userInfoVar } from "../../apollo";
 import { OrderStep } from "./components/OrderStep";
@@ -6,8 +6,6 @@ import { useHistory } from 'react-router';
 import { CheckCircleOutline } from '@material-ui/icons';
 
 export const CompleteOrder = () => {
-  const history = useHistory();
-
   useEffect(() => {
     // 주문완료 페이지를 나갔을 때 실행
     return () => {

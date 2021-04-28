@@ -1,10 +1,8 @@
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import gql from "graphql-tag";
-import React, { useEffect, useState } from 'react';
-// import { useHistory } from "react-router";
+import { useEffect, useState } from 'react';
 import { isLoggedInVar, orderVar } from "../apollo";
 import { checkError } from "../commonJs";
-import { MenuList } from '../pages/menu/MenuList';
 
 export const AUTH_USER = gql`
   query authUser {
@@ -17,7 +15,6 @@ export const AUTH_USER = gql`
 
 export function AuthCheck (ComposedComponent: any, redirectPath: string) {
   const AuthCheck = (props: any) => {
-    // const history = useHistory();
     const [isAuth, setIsAuth] = useState(false);
     const [ callAuthUser ] = useLazyQuery(AUTH_USER, {
       fetchPolicy: "no-cache",

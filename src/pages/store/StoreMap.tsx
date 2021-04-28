@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   ExpandLessRounded,
   ExpandMoreRounded,
@@ -77,7 +77,7 @@ export const StoreMap = () => {
   const [storeInfo, setStoreInfo] = useState<getStores_getStores_results | null>(null);
   const [map, setMap] = useState<any>(null);
   const [init, setInit] = useState(true); // init 여부(모든 매장 마커 생성 여부)
-  
+
   const { loading } = useQuery<sidosAndGuguns>(SIDOS_AND_GUGUNS, {
     onCompleted(data) {
       setSidos(data?.getSidos.results);

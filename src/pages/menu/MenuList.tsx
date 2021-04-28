@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { categoriesAndMenus } from '../../__generated__/categoriesAndMenus';
 import { Menu } from './components/Menu';
 
