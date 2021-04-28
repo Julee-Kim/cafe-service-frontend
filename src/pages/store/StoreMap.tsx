@@ -65,6 +65,40 @@ declare global {
 }
 
 export const StoreMap = () => {
+  const [windowWidth, setWindowWidth] = useState<number>(0);
+  const [sidos, setSidos] = useState<sidosAndGuguns_getSidos_results[] | null>([]);
+  const [guguns, setGuguns] = useState<sidosAndGuguns_getGuguns_results[] | null>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(true); // 매장 선택 collapse show or hide
+  const [currentState, setCurrentState] = useState<string>("sido"); // 선택한 상태(sido, gugun, store)
+  const [selectedGuguns, setSelectedGuguns] = useState<sidosAndGuguns_getGuguns_results[]>([]); // 선택한 시도의 구군 목록
+  const [selectedSidoName, setSelectedSidoName] = useState<string>(''); // // 선택한 구군의 시도 이름
+  const [selectedStores, setSelectedStores] = useState<getStores_getStores_results[] | null>([]); // 선택한 구군의 매장 목록
+  const [selectedSidoGugunName, setSelectedSidoGugunName] = useState<string>("서울 전체"); // // 선택한 구군의 시도-구군 이름
+  const [storeInfo, setStoreInfo] = useState<getStores_getStores_results | null>(null);
+  const [map, setMap] = useState<any>(null);
+  const [init, setInit] = useState(true); // init 여부(모든 매장 마커 생성 여부)
+  
+  const { loading } = useQuery<sidosAndGuguns>(SIDOS_AND_GUGUNS, {
+    onCompleted(data) {
+      setSidos(data?.getSidos.results);
+      setGuguns(data?.getGuguns.results);
+    },
+  });
+  const [ callQuery, { data: stores }] = useLazyQuery<getStores, getStoresVariables>(STORES, {
+    fetchPolicy: "no-cache",
+    onCompleted(data) {
+      setSelectedStores(data?.getStores.results);
+
+      // init값이 true일때만 모든 매장 마커 생성
+      if(init) {
+        setMarkerAll();
+        setInit(false);
+      }
+
+      setCurrentState("store");
+    }
+  });
+
   useEffect(() => {
     // set window width
     setWindowWidth(window.innerWidth);
@@ -91,40 +125,6 @@ export const StoreMap = () => {
       setWindowWidth(window.innerWidth);
     });
   }, []);
-
-  const { loading } = useQuery<sidosAndGuguns>(SIDOS_AND_GUGUNS, {
-    onCompleted(data) {
-      setSidos(data?.getSidos.results);
-      setGuguns(data?.getGuguns.results);
-    },
-  });
-  const [ callQuery, { data: stores }] = useLazyQuery<getStores, getStoresVariables>(STORES, {
-    fetchPolicy: "no-cache",
-    onCompleted(data) {
-      setSelectedStores(data?.getStores.results);
-
-      // init값이 true일때만 모든 매장 마커 생성
-      if(init) {
-        setMarkerAll();
-        setInit(false);
-      }
-
-      setCurrentState("store");
-    }
-  });
-
-  const [windowWidth, setWindowWidth] = useState<number>(0);
-  const [sidos, setSidos] = useState<sidosAndGuguns_getSidos_results[] | null>([]);
-  const [guguns, setGuguns] = useState<sidosAndGuguns_getGuguns_results[] | null>([]);
-  const [isOpen, setIsOpen] = useState<boolean>(true); // 매장 선택 collapse show or hide
-  const [currentState, setCurrentState] = useState<string>("sido"); // 선택한 상태(sido, gugun, store)
-  const [selectedGuguns, setSelectedGuguns] = useState<sidosAndGuguns_getGuguns_results[]>([]); // 선택한 시도의 구군 목록
-  const [selectedSidoName, setSelectedSidoName] = useState<string>(''); // // 선택한 구군의 시도 이름
-  const [selectedStores, setSelectedStores] = useState<getStores_getStores_results[] | null>([]); // 선택한 구군의 매장 목록
-  const [selectedSidoGugunName, setSelectedSidoGugunName] = useState<string>("서울 전체"); // // 선택한 구군의 시도-구군 이름
-  const [storeInfo, setStoreInfo] = useState<getStores_getStores_results | null>(null);
-  const [map, setMap] = useState<any>(null);
-  const [init, setInit] = useState(true); // init 여부(모든 매장 마커 생성 여부)
 
   // 시도 선택
   const selectSido = (sidoId: number, sidoName: string) => {
