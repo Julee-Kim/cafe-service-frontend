@@ -8,20 +8,66 @@ import { StoreMap } from '../pages/store/StoreMap';
 import { Profile } from '../pages/profile/Profile';
 import { Order } from '../pages/order/Order';
 import { CompleteOrder } from '../pages/order/CompleteOrder';
+import { AuthCheck, LoggedInCheck } from '../hoc/auth';
+
+const routes = [
+  {
+    path: '/menus',
+    component: MenuList
+  },
+  {
+    path: '/menus/:id',
+    component: MenuDetail
+  },
+  {
+    path: '/stores',
+    component: StoreMap
+  },
+  {
+    path: '/cart',
+    component: Cart
+  },
+];
+
+const authRoutes = [
+  {
+    path: '/profile',
+    component: <Profile />
+  },
+  {
+    path: '/order',
+    component: <Order />
+  },
+  {
+    path: '/order/complet',
+    component: <CompleteOrder />
+  },
+];
+
+const signInUpRoutes = [
+  {
+    path: '/login',
+    component: <Login />
+  },
+  {
+    path: '/signup',
+    component: <Signup />
+  },
+];
 
 export const Routers = () => {
   return (
     <>
       <Switch>
-        <Route exact path="/menus" component={MenuList}></Route>
-        <Route exact path="/menus/:id" component={MenuDetail}></Route>
-        <Route exact path="/stores" component={StoreMap}></Route>
-        <Route exact path="/login" component={Login}></Route>
-        <Route exact path="/signup" component={Signup}></Route>
-        <Route exact path="/profile" component={Profile}></Route>
-        <Route exact path="/cart" component={Cart}></Route>
-        <Route exact path="/order" component={Order}></Route>
-        <Route exact path="/order/complete" component={CompleteOrder}></Route>
+        {routes.map(route => (
+          <Route key={route.path} path={route.path} component={route.component} exact />
+        ))}
+        {authRoutes.map(route => (
+          <Route key={route.path} path={route.path} component={AuthCheck(route.component, route.path)} exact />
+        ))}
+        {signInUpRoutes.map(route => (
+          <Route key={route.path} path={route.path} component={LoggedInCheck(route.component, <MenuList/>)} exact />
+        ))}
       </Switch>
     </>
   );

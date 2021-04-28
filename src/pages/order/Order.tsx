@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useHistory } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
-import { isLoggedInVar, userInfoVar } from "../../apollo";
+import { isLoggedInVar, orderVar, userInfoVar } from "../../apollo";
 import { checkError } from "../../commonJs";
 import { AddressForm } from "../../components/AddressForm";
 import { InputWrap } from "../../components/InputWrap";
@@ -75,11 +75,6 @@ export const Order = () => {
   });
 
   useEffect(() => {
-    // 로그인한 사용자가 아니라면 로그인 페이지로 이동
-    if(!isLoggedInVar()) {
-      history.push('/login?return=order');
-    }
-
     setWindowWidth(window.innerWidth);
 
     window.addEventListener("resize", () => {

@@ -9,13 +9,6 @@ export const CompleteOrder = () => {
   const history = useHistory();
 
   useEffect(() => {
-    if(!orderVar()) {
-      alert('장바구니에서 메뉴를 선택 후 주문해주세요.');
-
-      // 없으면 메뉴로 이동
-      history.push('/cart');
-    }
-
     // 주문완료 페이지를 나갔을 때 실행
     return () => {
       initOrderData();

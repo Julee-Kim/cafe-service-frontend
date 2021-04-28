@@ -78,9 +78,6 @@ export const Profile = () => {
         ...userInfo,
         ...userInfoValue
       });
-    } else {
-      alert('로그인으로 이동합니다.');
-      history.push('/login?return=profile');
     }
   }, []);
 
