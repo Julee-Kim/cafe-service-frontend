@@ -9,6 +9,11 @@ import { GetMenuInput } from "./globalTypes";
 // GraphQL query operation: getMenu
 // ====================================================
 
+export interface getMenu_getMenu_menu_category {
+  __typename: "Category";
+  name: string;
+}
+
 export interface getMenu_getMenu_menu {
   __typename: "Menu";
   id: number;
@@ -25,6 +30,7 @@ export interface getMenu_getMenu_menu {
   caffeine: number;
   img: string;
   price: number;
+  category: getMenu_getMenu_menu_category;
 }
 
 export interface getMenu_getMenu {

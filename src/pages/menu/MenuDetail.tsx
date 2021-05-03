@@ -28,6 +28,9 @@ const MENU_DETAIL = gql`
         caffeine
         img
         price
+        category {
+          name
+        }
       }
     }
   }
@@ -174,7 +177,11 @@ export const MenuDetail = () => {
               <div className="nutrition">
                 <div className="nutrition_title_wrap">
                   <h4>제품 영양 정보</h4>
-                  <span className="size">{data?.getMenu.menu?.standard}ml</span>
+                  {data?.getMenu.menu?.category.name !== 'Cake' ? (
+                    <span className="size">{data?.getMenu.menu?.standard}(ml)</span>
+                  ) : (
+                    <span className="size">{data?.getMenu.menu?.standard}(g)</span>
+                  )}
                 </div>
                 <div className="nutrition_table_wrap">
                   <table className="nutrition_table">
@@ -202,8 +209,12 @@ export const MenuDetail = () => {
                       <tr>
                         <th>단백질(g)</th>
                         <td>{data?.getMenu.menu?.protein}</td>
-                        <th>카페인(mg)</th>
-                        <td>{data?.getMenu.menu?.caffeine}</td>
+                        {data?.getMenu.menu?.category.name !== 'Cake' && (
+                          <>
+                            <th>카페인(mg)</th>
+                            <td>{data?.getMenu.menu?.caffeine}</td>
+                          </>
+                        )}
                       </tr>
                     </tbody>
                   </table>
