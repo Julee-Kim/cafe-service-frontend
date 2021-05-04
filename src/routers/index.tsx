@@ -39,7 +39,7 @@ const authRoutes = [
     component: <Order />
   },
   {
-    path: '/order/complet',
+    path: '/order/complete',
     component: <CompleteOrder />
   },
 ];
