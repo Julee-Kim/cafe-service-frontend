@@ -13,7 +13,9 @@ const order = LocalOrder ? JSON.parse(LocalOrder) : '';
 export const orderVar = makeVar(order);
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: process.env.NODE_ENV === 'production'
+    ? 'https://my-cafe-service.herokuapp.com/graphql'
+    : 'http://localhost:4000/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {

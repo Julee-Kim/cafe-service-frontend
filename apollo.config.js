@@ -4,7 +4,9 @@ module.exports = {
     tagName: "gql",
     service: {
       name: "my-cafe",
-      url: "http://localhost:4000/graphql",
+      url: process.env.NODE_ENV === 'production'
+      ? 'https://my-cafe-service.herokuapp.com/graphql'
+      : 'http://localhost:4000/graphql',
     },
   },
 };
