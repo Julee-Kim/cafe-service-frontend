@@ -47,9 +47,17 @@ body {
   }
 }
 
+// toast
+.react-toast-notifications__container { top: 77px !important; }
+
 @media (max-width: 767px) {
   .container {
     max-width: 100%;
+  }
+
+  .react-toast-notifications__container {
+    top: 57px !important; 
+    width: 280px;
   }
 }
 

@@ -77,7 +77,7 @@ export const AddressForm: React.FC<IAddressFormProps> = ({
       </div>
       <div>
         <input
-          ref={register}
+          ref={register({ required: false })}
           type="text"
           name="addressDetail"
           id="addressDetail"
