@@ -8,6 +8,7 @@ import { Genders } from '../../__generated__/globalTypes';
 import { useToasts } from 'react-toast-notifications';
 import { signup, signupVariables } from '../../__generated__/signup';
 import { Button } from '../../components/Button';
+import { checkError } from '../../commonJs';
 
 export const SIGNUP = gql`
   mutation signup($createAccountInput: CreateAccountInput!) {
@@ -40,7 +41,12 @@ export const Signup = () => {
         if (success) {
           alert('로그인해 주세요.');
           history.push('/login');
+        } else {
+          addToast(data.createAccount.error, { appearance: 'error' });
         }
+      },
+      onError(error) {
+        checkError(error)
       }
     }
   );

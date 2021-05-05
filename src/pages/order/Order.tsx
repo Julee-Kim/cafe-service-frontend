@@ -313,7 +313,6 @@ export const Order = () => {
           {/* payment_info */}
           <div className="payment_info">
             <h3>결제 금액 정보</h3>
-            <p>{formState.isValid}</p>
             <ul className="summary inline-block">
               <li>
                 <span className="summary_label">주문 금액</span>
