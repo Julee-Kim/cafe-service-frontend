@@ -38,7 +38,8 @@
     "apollo:codegen": "rm -rf src/__generated__ && apollo client:codegen src/__generated__ --target=typescript --outputFlat",
     "build": "CI=false react-scripts build",
     "prebuild": "yarn run tailwind:build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --verbose",
+    "test:coverage": "yarn test -- --coverage --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -61,5 +62,12 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.1.7"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "./src/App.tsx",
+      "./src/components/**/*.tsx",
+      "./src/pages/**/*.tsx"
+    ]
   }
 }
